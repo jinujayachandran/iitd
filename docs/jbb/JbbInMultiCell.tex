@@ -273,21 +273,27 @@ and the value of $\eta_{lp}$ is
 	In the pilot phase of the O-terminals the base station sends the pilots to the O-terminals. Here we assume that in the pilot phase there is no transmission to the B-terminals.
 The signal received by the O-terminal in the $l^{th}$ cell is given by
 \begin{eqnarray}
-	y_{ol}(t)=\sqrt{\rho_o} \sum_{j=1}^{L} \left[(\pmb{h_{ej}})^H \pmb{q_{pj}}(t) + w_{oj}(t) \right]
+	y_{ok}(t)=\sqrt{\rho_o} \sum_{j=1}^{L} \left[\pmb{h}^H_{ej} \ \pmb{q}_{j}(t) + w_{oj}(t) \right]
 \end{eqnarray}
 where
 \begin{eqnarray}
-	\pmb{h_{ej}} &\triangleq& \pmb{U^H\Pi_{\frac{1}{\hat G_j}}h_j} \nonumber \\
-        \pmb{E[h_{ej}(h_{ej})^H|\hat G_j}] &=& \beta_{ol}\pmb{I} \nonumber \\
-			                     &=& \pmb{E[h_{ej}(h_{ej})^H}] \nonumber \\
-                                           &\triangleq& \pmb{C_{h_{ej}}} \nonumber
+	\pmb{h}_{ej} &\triangleq& \pmb{U}_j^H\Pi_{\frac{1}{\pmb{\hat G}_j}}\pmb{h}_j \nonumber \\
+    \pmb{E}[\pmb{h}_{ej}\pmb{h}^H_{ej}|\pmb{\hat G}_j] &=& \beta_{ol}\pmb{I} \nonumber \\
+			                     &=& \pmb{E}[\pmb{h}_{ej}\pmb{h}^H_{ej}] \nonumber \\
+                                           &\triangleq& \pmb{C}_{\pmb{h}_{ej}} \nonumber
 \end{eqnarray}
-At the $l^{th}$ cell, O-terminal correlates $y_{ol}(t)$ with the pilot and the resulting signal is
+At the $k^{th}$ cell, O-terminal correlates $y_{ok}(t)$ with the pilot and the resulting signal is
 \begin{eqnarray}
-	\pmb{y_{ol}} &\triangleq& \sum_{t=1}^{t=\tau_p^o} y_{ol}^*(t)\pmb{q_{oj}(t)} \nonumber \\
-\implies \pmb{y_{ol}} &=& \sqrt{\rho_o}\frac{\tau_p^o}{M'_j}\sum_{j=1}^{L}\pmb{h_{ej}}+\pmb{n_{pl}}(t)
+	\pmb{y}_{ok}^{p} &\triangleq& \sum_{t=1}^{t=\tau_p^o} y_{ok}^*(t)\pmb{q}^{p}_{j}(t) \nonumber \\
 \end{eqnarray}
-where $\pmb{n_{pl}}(t) = \sum_{j=1}^{L} \sum_{t=1}^{\tau_p^o} w_{oj}(t) \pmb{q_{pj}}(t)$. The variance of the AWGN is calculated as
+where $\pmb{q}_j^p(t)$ are the pilot signals sent at time $t$. The energy spent per sample is same during the pilot and payload phases. Hence 
+\begin{eqnarray}
+    \sum\limits_{t=1}^{\tau_p^o}\pmb{q}_{pj}(t)\pmb{q}_{pj}(t)=\frac{\tau_p^o}{M'}\pmb{I}
+\end{eqnarray}
+\begin{eqnarray}
+\implies \pmb{y}_{ok} &=& \sqrt{\rho_o}\frac{\tau_p^o}{M'_j}\sum_{j=1}^{L}\pmb{h}_{ej}+\pmb{n}_{pk}(t)
+\end{eqnarray}
+where $\pmb{n_{pk}}(t) = \sum\limits_{j=1}^{L} \sum\limits_{t=1}^{\tau_p^o} w_{oj}(t) \pmb{q_{pj}}(t)$. The variance of the AWGN is calculated as
 \begin{eqnarray*}
 	\pmb{E}[\pmb{n_{pj}(n_{pk}})^H] &=& \frac{L\tau_p^o}{M'}I 
 \end{eqnarray*}

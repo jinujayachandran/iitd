@@ -136,7 +136,7 @@ The values of beamforming vectors $\pmb{v}_{jk}$ depends on the channel estimate
 	\pmb{v}_{jk} = \sqrt{\frac{\eta_{jk}}{M\gamma_{jkj}}}\pmb{\hat g}^*_{jkj}
 \end{eqnarray}
 where power control parameters, $\eta_{jk}$, satisfy 
-\begin{eqnarray}
+\begin{eqnarray}\label{eqn:etaconstraint}
 \sum\limits_{k=1}^{k=K}\eta_{jk}=1
 \end{eqnarray}
 The received signal at the $k^{th}$ B-terminal is given by
@@ -222,6 +222,15 @@ Thus the value of the rate for the $k^{th}$ terminal of the $l^{th}$ cell can be
 				+1}\right]
 \end{eqnarray}
 
+Applying the constraint \ref{eqn:etaconstraint} in \ref{eqn:rateot} the expression for rate reduces to
+
+\begin{eqnarray}\label{eqn:finalratebt}
+R_k^{MR} &=& log_2\left[1+ \dfrac{M\rho_b\gamma_{lk}\eta_{lk}}{\rho_b\beta_{lkl}L
+    +V_6
+    +1}\right]
+\end{eqnarray}
+
+
 \section{Power Allocation Startergy for B-terminals}
   The max-min fairness power allocation scheme shall be followed as described in Chapter 5 and 6.2.5 in \cite{bib:MassiveMimoBook}. The basic principle is to make the SINR for all the terminals in a particular cell same. In the multicell system individual cells shall be considered independently under this stratergy. 
 
@@ -277,7 +286,7 @@ The signal received by the O-terminal in the $l^{th}$ cell is given by
 \end{eqnarray}
 where
 \begin{eqnarray}
-	\pmb{h}_{ej} &\triangleq& \pmb{U}_j^H\Pi_{\frac{1}{\pmb{\hat G}_j}}\pmb{h}_j \nonumber \\
+	\pmb{h}_{ej} &\triangleq& \pmb{U}_j^H\Pi_{\frac{1}{\pmb{\hat G}_j}}\pmb{h}_l = \pmb{U_j}^H\pmb{h}_l \nonumber \\
     \pmb{E}[\pmb{h}_{ej}\pmb{h}^H_{ej}|\pmb{\hat G}_j] &=& \beta_{ol}\pmb{I} \nonumber \\
 			                     &=& \pmb{E}[\pmb{h}_{ej}\pmb{h}^H_{ej}] \nonumber \\
                                            &\triangleq& \pmb{C}_{\pmb{h}_{ej}} \nonumber
@@ -288,86 +297,84 @@ At the $k^{th}$ cell, O-terminal correlates $y_{ok}(t)$ with the pilot and the r
 \end{eqnarray}
 where $\pmb{q}_j^p(t)$ are the pilot signals sent at time $t$. The energy spent per sample is same during the pilot and payload phases. Hence 
 \begin{eqnarray}
-    \sum\limits_{t=1}^{\tau_p^o}\pmb{q}_{pj}(t)\pmb{q}_{pj}(t)=\frac{\tau_p^o}{M'}\pmb{I}
+    \sum\limits_{t=1}^{\tau_p^o}\pmb{q}^p_{j}(t)\pmb{q}^p_{j}(t)=\frac{\tau_p^o}{M'}\pmb{I}
 \end{eqnarray}
 \begin{eqnarray}
-\implies \pmb{y}_{ok} &=& \sqrt{\rho_o}\frac{\tau_p^o}{M'_j}\sum_{j=1}^{L}\pmb{h}_{ej}+\pmb{n}_{pk}(t)
+\implies \pmb{y}_{ok} &=& \sqrt{\rho_o}\frac{\tau_p^o}{M'_j}\sum_{j=1}^{L}\pmb{h}_{ej}+\pmb{n}^p_{k}(t)
 \end{eqnarray}
-where $\pmb{n_{pk}}(t) = \sum\limits_{j=1}^{L} \sum\limits_{t=1}^{\tau_p^o} w_{oj}(t) \pmb{q_{pj}}(t)$. The variance of the AWGN is calculated as
+where $\pmb{n}^p_{k}(t)$ is AWGN at the receiver. The variance of the AWGN is calculated as
 \begin{eqnarray*}
-	\pmb{E}[\pmb{n_{pj}(n_{pk}})^H] &=& \frac{L\tau_p^o}{M'}I 
+	\pmb{E}[\pmb{n}^p_{j}(\pmb{n}^p_{k})^H] &=& \frac{L\tau_p^o}{M'}I 
 \end{eqnarray*}
 Following the same procedure as in section (\ref{sec:btchesti}) the channel from the $l^{th}$ cell base station to the O-terminal can be derived as 
 \begin{eqnarray}\label{eqn:otchesti}
-	\pmb{\hat h_{el}} &=& \frac{M'\sqrt{\rho_o\beta_{ol}}}{M'L+\rho_o\tau_p^o\sum_{j=1}^{L}\beta_{oj}}\pmb{y_{pl}}
+	\pmb{\hat h}_{el} &=& \frac{M'\sqrt{\rho_o\beta_{ol}}}{M'+\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{oj}}\pmb{y}^p_{ol}
 \end{eqnarray}
 Similarly the variance of the estimate and error variance are
 \begin{eqnarray}
-	\pmb{C_{\hat h_{ej}}} &\triangleq& \pmb{E}[\pmb{\hat h_{ej}}(\pmb{\hat h_{ej}})^H] = \frac{\rho_o\tau_p^o\beta^2_{ol}}{\rho_o\tau_p^o\sum_{j=1}^{L}\beta_{oj}+M'L}\pmb{I} \\
-	\pmb{C_{\widetilde{h}_{ej}}} &=& \beta_{ol} - \pmb{C_{\hat h_{ej}}} 
+	\pmb{C}_{\pmb{\hat h}_{ej}} &\triangleq& \pmb{E}[\pmb{\hat h}_{ej}\pmb{\hat h}^H_{ej}] = \frac{\rho_o\tau_p^o\beta^2_{ol}}{\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{oj}+M'}\pmb{I} \\
+	\pmb{C_{\widetilde{h}_{ej}}} &=& \beta_{ol} - 	\pmb{C}_{\pmb{\hat h}_{ej}}
 \end{eqnarray}
 
 \subsection{Payload Phase}
 
 The received signal at the O-terminal in the $l^{th}$ cell is given by
 \begin{eqnarray}\label{eqn:otyt}
- y_{ol}(t) = \sqrt{\rho_o} \sum_{j=1}^{L} (\pmb{\hat h_{ej}})^H \pmb{q_j(t)}
-            + \sqrt{\rho_b'} \sum_{j=1}^{L} (\pmb{h_j})^H \left(\sum_{k'=1}^{K} \pmb{v_{jk'}} s_{jk'}(t) + \sum_{j=1}^{L}W_{oj}(t)  \right)
+ y_{ol}(t) = \sqrt{\rho_o} \sum_{j=1}^{L} \pmb{\hat h}^H_{ej} \pmb{q}_j(t)
+            + \sqrt{\rho_b'} \sum_{j=1}^{L} \pmb{h}^H_j \left(\sum_{k'=1}^{K} \pmb{v}_{jk'} s_{jk'}(t)\right) + w_{oj}(t)  
 \end{eqnarray} 
-The equation (\ref{eqn:otyt}) can be written in terms of the channel estimate and error values.
+Considering the $l^{th}$ cell and substituting $\pmb{h}_{el} = \pmb{\hat h}_{el}-\pmb{\widetilde{h}}_{el}$, the equation (\ref{eqn:otyt}) can be written as
 \begin{eqnarray}\label{eqn:otcomplete}
-  y_{ol}(t)= \sqrt{\rho_o} (\pmb{\hat h_{el}})^H \pmb{q_l}(t) 
-	    - \sqrt{\rho_o}(\pmb{\widetilde{h}_{el}})^H\pmb{q_l}(t)
-	    +\sqrt{\rho_o} \sum_{\substack{j=1 \\ j \neq l}}^{L} (\pmb{h_{ej}})^H\pmb{q_{j}}(t) \nonumber \\
-            + \sqrt{\rho_b'} \sum_{j=1}^{L} (\pmb{h_j})^H \left(\sum_{k'=1}^{K} \pmb{v_{jk'}} s_{jk'}(t) 
-	    + \sum_{j=1}^{L}W_{oj}(t)  \right)            
+  y_{ol}(t)= \sqrt{\rho_o} \pmb{\hat h}^H_{el} \ \pmb{q}_l(t) 
+	    - \sqrt{\rho_o}\pmb{\widetilde{h}}^H_{el}\pmb{q}_l(t)
+	    +\sqrt{\rho_o} \sum_{\substack{j=1 \\ j \neq l}}^{L} \pmb{h}^H_{ej}\pmb{q}_{j}(t) 
+            + \sqrt{\rho_b'} \sum_{j=1}^{L} \pmb{h}^H_j \left(\sum_{k'=1}^{K} \pmb{v}_{jk'} s_{jk'}(t) \right)             
+	    + w_{oj}(t)  
 \end{eqnarray}
-The first term in (\ref{eqn:otcomplete}) is the required signal and other terms constitute to the noise. To find the SINR, the signal power along with the noise variances shall be calculated. Please note that the signal is uncorrelated with noise and the noise themselves are uncorrelated.
-The variances of all terms are computed conditioned on $\pmb{\hat h_{ej}}$. The signal power is given as
+The first term in (\ref{eqn:otcomplete}) is the required signal and other terms constitute to the interference and noise. To find the SINR, the signal power along with the noise variances shall be calculated. Please note that the signal, intereference and the noise are mutually uncorrelated.
+The variances of all terms are computed conditioned on $\pmb{\hat h}_{el}$. 
+
+The signal power is given as
 \begin{eqnarray}
-	E_1 = \rho_o\pmb{E}[|(\pmb{\hat h_{el}})^H \pmb{q_l}(t)|^2 | \pmb{\hat h_{el}}] &=& \rho_o\pmb{E}[||\pmb{\hat h_e}||^2 | \pmb{\hat h_{el}}] \nonumber \\
-                                                                                           &=& \frac{\rho_o}{M'} ||\pmb{\hat h_{el}}||^2
+E_1 = \rho_o\pmb{E}[|\pmb{\hat h}_{el}^H \pmb{q}_l(t)|^2 | \pmb{\hat h}_{el}] &=& \rho_o\pmb{E}[||\pmb{\hat h}_{el}||^2 | \pmb{\hat h}_{el}] \nonumber \\     &=& \frac{\rho_o}{M'} ||\pmb{\hat h_{el}}||^2
 \end{eqnarray}
 The noise variances for the other terms in (\ref{eqn:otcomplete}) are as follows
 \begin{eqnarray}\label{eqn:otv1}
-	V_1 &=& \pmb{E}[|\sqrt{\rho_o}(\pmb{\widetilde{h}_{el}})^H \pmb{q_l}(t)|^2|\pmb{\hat h_{el}}] \nonumber \\
-            &=& \frac{\rho_o}{M'} \pmb{E}[||\pmb{\widetilde{h}_{el}}||^2 |\pmb{\hat h_{el}}] \nonumber \\
-            &=& \frac{\rho_o}{M'}\left(\beta_{ol}-\frac{\rho_o\tau_p^o\beta^2_{ol}}{\rho_o\tau_p^o\sum_{j=1}^{L}\beta_{oj}+M'L}\right)          
+	V_1 &=& \pmb{E}[|\sqrt{\rho_o}\pmb{\widetilde{h}}_{el}^H \pmb{q}_l(t)|^2|\pmb{\hat h}_{el}] \nonumber \\
+            &=& \frac{\rho_o}{M'} \pmb{E}[||\pmb{\widetilde{h}}_{el}||^2 |\pmb{\hat h}_{el}] \nonumber \\
+            &=& \frac{\rho_o}{M'}\left(\beta_{ol}-\frac{\rho_o\tau_p^o\beta^2_{ol}}{\rho_o\tau_p^o\sum_{j=1}^{L}\beta_{oj}+M'}\right)          
 \end{eqnarray}
 \begin{eqnarray}\label{eqn:otv2}
-	V_2 &=& \rho_o \sum_{\substack{j=1 \\ j \neq l}}^{L} \pmb{E}[|(\pmb{h_{ej}})^H\pmb{q_j}(t)|^2] \nonumber \\
+	V_2 &=& \rho_o \sum_{\substack{j=1 \\ j \neq l}}^{L} \pmb{E}[|\pmb{h}^H_{ej} \pmb{q}_j(t)|^2] \nonumber \\
             &=& \frac{\rho_o}{M'} \sum_{\substack{j=1 \\ j\neq l}}^{L} \beta_{oj}
 \end{eqnarray}
 \begin{eqnarray}
-	V_3 &=& \rho_b' \sum_{j=1}^{L} \pmb{E}\left[\left|\sum_{k'=1}^{K} (\pmb{h_j})^H \pmb{v_{jk'}}s_{jk'}(t) \right|^2 | \pmb{\hat h_{el}} \right] \nonumber \\
+	V_3 &=& \rho_b' \sum_{j=1}^{L} \pmb{E}\left[\left|\sum_{k'=1}^{K} \pmb{h}^H_j \pmb{v}_{jk'}s_{jk'}(t) \right|^2 | \pmb{\hat h}_{el} \right] \nonumber \\
             &=& \rho_b' \sum_{j=1}^{L} \pmb{E}\left[\sum_{k'=1}^{K} (\pmb{v_{jk'}})^H \pmb{h_j}  (\pmb{h_j})^H \pmb{v_{jk'}}| \pmb{\hat h_{el}} \right] \nonumber \\
-            &=& \rho_b' \sum_{j=1}^{L} \pmb{E}\left[\pmb{E}\left[\sum_{k'=1}^{K} (\pmb{v_{jk'}})^H \pmb{h_j}  (\pmb{h_j})^H \pmb{v_{jk'}}| \pmb{\hat h_{el}},  \pmb{\hat G_{j}} \right] | \pmb{\hat h_{el}}\right] \nonumber \\
-            &=& \rho_b' \sum_{j=1}^{L} \pmb{E}\left[\ (\pmb{v_{jk'}})^H \pmb{E}\left[\sum_{k'=1}^{K} \pmb{h_j}  (\pmb{h_j})^H | \pmb{\hat h_{el}},  \pmb{\hat G_{j}} \right] \pmb{v_{jk'}}| \pmb{\hat h_{el}}\right]
+            &=& \rho_b' \sum_{j=1}^{L} \pmb{E}\left[\pmb{E}\left[\sum_{k'=1}^{K} \pmb{v}^H_{jk'} \pmb{h}_j  \pmb{h}_j \pmb{v}_{jk'}| \pmb{\hat h}_{el},  \pmb{\hat G}_{j} \right] | \pmb{\hat h}_{el}\right] \nonumber \\
+            &=& \rho_b' \sum_{j=1}^{L} \pmb{E}\left[\ \pmb{v}^H_{jk'} \pmb{E}\left[\sum_{k'=1}^{K} \pmb{h}_j  \pmb{h}^H_j | \pmb{\hat h}_{el},  \pmb{\hat G}_{j} \right] \pmb{v}_{jk'}| \pmb{\hat h}_{el}\right]
 \end{eqnarray}
 The inner expectation can simplified using the equality \cite{bib:rmtBook}
 \begin{eqnarray}
-	\pmb{E}[\pmb{h_j}(\pmb{h_j})^H|\pmb{\hat h_{ej}}, \pmb{\hat G_{j}}] = \pmb{C_{h_j}}-\pmb{E[h_j (\hat h_{ej})^H \hat| G_{j}] - C_{\hat h_{ej}}^{-1}E[(\hat h_{ej})^H h_j| \hat G_{j}}]
+	\pmb{E}[\pmb{h}_j\pmb{h}^H_j|\pmb{\hat h}_{ej}, \pmb{\hat G}_{j}] = \pmb{C}_{\pmb{h}_j}-\pmb{E}[\pmb{h}_j \pmb{\hat h}^H_{ej}| \pmb{\hat G}_{j}] - \pmb{C}_{\pmb{\hat h}_{ej}}^{-1}\pmb{E}[\pmb{\hat h}_{ej}^H \pmb{h}_j| \pmb{\hat G}_{j}]
 \end{eqnarray}
 where
 \begin{eqnarray}
-	\pmb{E[(\hat h_{ej})^H h_j| \hat G_{j}}] = \frac{\beta_{oj}^{2}\rho_o\tau_p^o}{M'L+\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{oj}}\pmb{U_j}
+	\pmb{E}[\pmb{\hat h}_{ej}^H \pmb{h}_j| \pmb{\hat G}_{j}] = \frac{\beta_{oj}^{2}\rho_o\tau_p^o}{M'+\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{oj}}\pmb{U}_j
 \end{eqnarray}
 Thus
 \begin{eqnarray}\label{eqn:otv3}
-	V_3 &=& \rho_b' \sum_{j=1}^{L} \left[ \beta_{oj} \pmb{E}[\sum_{k'=1}^{K}||\pmb{v_{jk'}}||^2]
-					- \frac{\beta_{ol}^{2}\rho_o\tau_p^o\pmb{U_j}}{M'L+\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{oj}} \pmb{E}\left[\sum_{k'=1}^{K} (\pmb{v_{jk'}})^H \pmb{U_j}  (\pmb{U_j})^H \pmb{v_{jk'}}\right]\right] \nonumber \\
+	V_3 &=& \rho_b' \sum_{j=1}^{L} \left( \beta_{oj} \pmb{E}\left[\sum_{k'=1}^{K}||\pmb{v}_{jk'}||^2\right]
+					- \frac{\beta_{ol}^{2}\rho_o\tau_p^o\pmb{U}_j}{M'+\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{oj}} \pmb{E}\left[\sum_{k'=1}^{K} \pmb{v}_{jk'}^H \pmb{U}_j \pmb{U}_j^H \pmb{v}_{jk'}\right]\right) \nonumber \\
 	    &=& \rho_b'\sum_{j=1}^{L}\beta_{oj}
 \end{eqnarray}
 
-For the AWGN term, the noise variance is 
-\begin{eqnarray}
-	V_4 &=& \sum\limits_{j=1}^{L}\pmb{E}[|w_{oj}(t))|^2] \nonumber \\
-            &=& L
-\end{eqnarray}
+For the AWGN term, the noise variance is $V_4 = 1$
+
 The rate for the O-terminal is
 \begin{eqnarray}\label{eqn:rateotfull}
-	R_o &\triangleq& \pmb{E_{\hat h_{el}}}\left[log_2\left(1+\frac{\frac{\rho_o||\pmb{\hat h_{el}||^2}}{M'}}{V_1+V_2+V_3+V_4}\right) \right] \nonumber \\
-            &=&  \pmb{E_{\hat h_{el}}}\left[log_2\left(1+\frac{\frac{\rho_o||\pmb{\hat h_{el}||^2}}{M'}}
+	R_o &\triangleq& \pmb{E}_{\pmb{\hat h}_{el}}\left[log_2\left(1+\frac{\frac{\rho_o||\pmb{\hat h}_{el}||^2}{M'}}{V_1+V_2+V_3+V_4}\right) \right] \nonumber \\
+            &=&  \pmb{E_{\hat h_{el}}}\left[log_2\left(1+\frac{\frac{\rho_o||\pmb{\hat h}_{el}||^2}{M'}}
 								 {\frac{\rho_o}{M'}(\beta_{ol}-\frac{\rho_o\tau_p^o\beta^2_{ol}}{\rho_o\tau_p^o\sum_{j=1}^{L}\beta_{oj}+M'L})        
 								  + \frac{\rho_o}{M'} \sum_{\substack{j=1 \\ j\neq l}}^{L} \beta_{oj} 
 								  +\rho_b'\sum_{j=1}^{L}\beta_{oj}
@@ -380,10 +387,10 @@ To obtain a simple closed-form bound of the expectation in (\ref{eqn:rateotfull}
 \end{eqnarray}
 The result in (\ref{eqn:bound}) is obtained from \cite{bib:dtsysBook}. Using the value of the variance of the estimate, bound for the rate can be formulated as
 \begin{eqnarray}
-	R_o &\geq& \left[log_2\left(1+\frac{\frac{\rho_o(M'-1)}{M'}\frac{\rho_o\tau_p^o\beta^2_{ol}}{\rho_o\tau_p^o\sum_{j=1}^{L}\beta_{oj}+M'L}}
-								 {\frac{\rho_o}{M'}(\beta_{ol}-\frac{\rho_o\tau_p^o\beta^2_{ol}}{\rho_o\tau_p^o\sum_{j=1}^{L}\beta_{oj}+M'L})        
-								  + \frac{\rho_o}{M'} \sum_{\substack{j=1 \\ j\neq l}}^{L} \beta_{oj} 
-								  +\rho_b'\sum_{j=1}^{L}\beta_{oj}
+	R_o &\geq& \left[log_2\left(1+\frac{\frac{\rho_o(M'-1)}{M'}\frac{\rho_o\tau_p^o\beta^2_{ol}}{\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{oj}+M'L}}
+								 {\frac{\rho_o}{M'}(\beta_{ol}-\frac{\rho_o\tau_p^o\beta^2_{ol}}{\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{oj}+M'L})        
+								  + \frac{\rho_o}{M'} \sum\limits_{\substack{j=1 \\ j\neq l}}^{L} \beta_{oj} 
+								  +\rho_b'\sum\limits_{j=1}^{L}\beta_{oj}
 								  +L}\right) \right]	
 \end{eqnarray}
 

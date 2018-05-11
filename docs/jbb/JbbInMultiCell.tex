@@ -62,7 +62,7 @@ and $z_l(t)$ is normalized such that
 \begin{eqnarray}\label{eqn:zlcondition}
 	\pmb{E}\left[||\Pi^{\perp}_{{\widehat{G}_l}}z_l(t)||^2\right]=1.
 \end{eqnarray}
-The O-terminal sees $z_l(t)$ transmitted over the channel with effective channel response $\Pi_{\frac{1}{\pmb{\hat G}_l}}\pmb{h}_l$ which is unknown to the O-terminal. We assume that $z_l(t)$ is confined to the subspace of dimension $M'$, where $M'\leq M$ and $z(t) = \pmb{U}_l\pmb{q}_l(t)$. The vector $\pmb{q}_l(t)$ are the information symbols relating to the system information (SI) and are iid $CN(0,\zeta)$ distributed. From \cite{bib:jbb} it follows that $\zeta=\frac{1}{M'}$ contains the information for a O-terminals  and is assumed to have independent $CN(0, \zeta)=\frac{1}{M'}$. $\pmb{U}_l$ is a $M\times M'$ semi-unitary matrix which is unknown to the O-terminals. Under independent Rayleigh fading we assume $\pmb{U}_l^H\pmb{U}_l=I$ and $\Pi_{\frac{1}{\pmb{\hat G}_l}}\pmb{U}_l=\pmb{U}_l$ same as in \cite{bib:jbb}. In addition, without loss of generality, it is assumed that $\pmb{U}_j^H\pmb{U}_l=0$.
+The O-terminal sees $z_l(t)$ transmitted over the channel with effective channel response $\Pi_{\frac{1}{\pmb{\hat G}_l}}\pmb{h}_l$ which is unknown to the O-terminal. We assume that $z_l(t)$ is confined to the subspace of dimension $M'$, where $M'\leq M$ and $z(t) = \pmb{U}_l\pmb{q}_l(t)$. The vector $\pmb{q}_l(t)$ are the information symbols relating to the system information (SI) and are iid $CN(0,\zeta)$ distributed. Further, the SIs send from all the cells are assumed to be same. From \cite{bib:jbb} it follows that $\zeta=\frac{1}{M'}$ contains the information for a O-terminals  and is assumed to have independent $CN(0, \zeta)=\frac{1}{M'}$. $\pmb{U}_l$ is a $M\times M'$ semi-unitary matrix which is unknown to the O-terminals. Under independent Rayleigh fading we assume $\pmb{U}_l^H\pmb{U}_l=I$ and $\Pi_{\frac{1}{\pmb{\hat G}_l}}\pmb{U}_l=\pmb{U}_l$ same as in \cite{bib:jbb}. In addition, without loss of generality, it is assumed that $\pmb{U}_j^H\pmb{U}_l=0$.
 
 The additive white gaussian noise (AWGN) is assumed to be $CN(0,1)$ and is independent of the channel, its estimate and the transmitted symbols.
 
@@ -190,15 +190,34 @@ The variance of channel estimation error is
 \end{eqnarray}
 The variance of the transmission to O-terminals is given by
 \begin{eqnarray}\label{eqn:noiseF4_1}
-	V_5 &\triangleq& \rho_o\sum_{j=1}^{L}\pmb{E}\left[|\pmb{g}_{lkj}^T\Pi^{\perp}_{{\widehat{\pmb{G}}_j}}\pmb{U}_j \pmb{q}_{j}|^2\right]
+	V_6 &\triangleq& \rho_o\sum_{j=1}^{L}\pmb{E}\left[|\pmb{g}_{lkj}^T\Pi^{\perp}_{{\widehat{\pmb{G}}_j}}\pmb{U}_j \pmb{q}_{j}|^2\right] \\
+            &=&       \frac{\rho_o}{M'}\sum_{j=1}^{L}\sum_{i=1}^{L} \pmb{Tr}\left(\pmb{E}\left[\pmb{U}_j^H \Pi^{\perp}_{\pmb{\widehat{G}}_j} \pmb{g}_{lkl}^* \pmb{g}_{lkl}^{T}\Pi^{\perp}_{\pmb{\hat G}_i} \pmb{U}_i \right]\right)
 \end{eqnarray}
-
-The random variables $\pmb{g}_{lkj}$ and $\pmb{q}_j$ are statistically independent conditioned on $\pmb{U}_j$ and therefore, the expectation in (\ref{eqn:noiseF4_1}) can be computed as a nested expectation, by first taking the expectation conditioned on $\pmb{U}_j$ and then computing the expectation over $\pmb{U}_j$. Thus the variance is derived as
-\begin{eqnarray}\label{eqn:noiseF4}
-	V_5 &=& 
+Note that 
+\begin{eqnarray}\label{eqn:conditionghat}
+    E[\pmb{g}_{lkl}^*\pmb{g}_{lkl}^T|\pmb{\hat G}_l] = \pmb{\hat g}_{lkl}^*\pmb{\hat g}_{lkl}^T + (\beta_{lkl}-\gamma_{lkl}\pmb{I})
+\end{eqnarray} 
+Consider the scenario $i=k=l$. When conditioned on $\pmb{\hat G}_l$, $\pmb{U}_l$ is fixed so that
+(\ref{eqn:noiseF4_1}) can be written as 
+\begin{eqnarray}\label{eqn:jeqkeql}
+   V_{6,i=j=l} \triangleq \frac{\rho_o}{M'}\pmb{Tr}\left(\pmb{E}\left[\pmb{U}_j^H \Pi^{\perp}_{\pmb{\widehat{G}}_j} \pmb{E}[\pmb{g}_{lkl}^* \pmb{g}_{lkl}^{T}]\Pi^{\perp}_{\pmb{\hat G}_i} \pmb{U}_i \right]\right)
 \end{eqnarray}
-The variance of the AWGN noise term is calculated as $1$
-
+Substituting (\ref{eqn:conditionghat}) and using the facts that $\Pi^{\perp}_{\pmb{\hat G}_l}\pmb{\hat g}_{lkl} = 0$ and $\pmb{U}_l^H\pmb{U}_l=\pmb{I}$, (\ref{eqn:jeqkeql}) can be evaluated to be
+\begin{eqnarray}\label{eqn:v6l}
+V_{6,i=j=l} &=& \rho_o(\beta_{lkl} - \gamma_{lkl})
+\end{eqnarray}
+Next, consider the scenario $i=j=m\neq l$ and define
+\begin{eqnarray}\label{eqn:v6m}
+    V_{6,m\neq l}   &=& \frac{\rho_o}{M'}\sum_{m=1}^{L} \pmb{Tr}\left(\pmb{E}\left[\pmb{U}_m^H \Pi^{\perp}_{\pmb{\widehat{G}}_m} \pmb{g}_{lkl}^* \pmb{g}_{lkl}^{T}\Pi^{\perp}_{\pmb{\hat G}_m} \pmb{U}_m \right]\right) \nonumber \\
+                    &=&  \frac{\rho_o}{M'}\sum_{m=1}^{L} \pmb{Tr}\left(\pmb{E}\left[\pmb{U}_m^H \Pi^{\perp}_{\pmb{\widehat{G}}_m} \pmb{U}_m\right] \pmb{E}\left[ \pmb{g}_{lkl}^* \pmb{g}_{lkl}^{T} \right]\right) \nonumber \\
+                    &=& \rho_oL\beta_{lkl}
+\end{eqnarray}
+For the scenario where $i\neq j$ and $i,j \neq l$ since the channel estimates of different cells are independent and with zero mean the $\pmb{E}\left[\pmb{U}_j^H\Pi^{\perp}_{\pmb{\widehat{G}}_j}\Pi^{\perp}_{\pmb{\widehat{G}}_i} \pmb{U}_i\right]$ = $\pmb{E}[\pmb{U}_j^H\pmb{U}_i] =0$. Thus the variance of the transmission to the O-terminals is
+\begin{eqnarray}\label{eqn:v6}
+   V_6 &=& V_{6,i=j=l} + V_{6,m\neq l} \nonumber \\
+       &=& \rho_o[\beta_{lkl}(L+1)-\gamma_{lkl}]
+\end{eqnarray}
+The variance of the AWGN noise term is calculated as $1$.
 %Thus the SINR of the system can be written as 
 %\begin{eqnarray}\label{eqn:sinrexp}
 %	\pmb{SINR}_{lk}^{MR} &=& \frac{SP_1}{V_1+V_2+V_3+V_4+V_5}
@@ -207,6 +226,7 @@ The variance of the AWGN noise term is calculated as $1$
 %\begin{eqnarray}\label{eqn:rateexp}
 %	R_{lk}^{MR} &=& log_2(1+\pmb{SINR}_{lk}^{MR})
 %\end{eqnarray}
+
 Thus the value of the rate for the $k^{th}$ terminal of the $l^{th}$ cell can be written as
 %\begin{eqnarray}\label{eqn:rateot}
 %	R_k^{MR} &=& log_2\left[1+ \dfrac{M\rho_b\gamma_{lk}\eta_{lk}}{\rho_b\gamma_{lk}\eta_{lk} + \rho_b\gamma_{lk}\sum\limits_{\substack{k'=1 \\ k' \neq K}}^{K}\eta_{lk'}
@@ -218,15 +238,13 @@ Thus the value of the rate for the $k^{th}$ terminal of the $l^{th}$ cell can be
 
 \begin{eqnarray}\label{eqn:rateot}
 	R_k^{MR} &=& log_2\left[1+ \dfrac{M\rho_b\gamma_{lk}\eta_{lk}}{\rho_b\beta_{lkl}\sum\limits_{j=1}^{L} \sum\limits_{k' = 1}^{K}\eta_{jk'}
-				+V_6
+				+\rho_o[\beta_{lkl}(L+1)-\gamma_{lkl}]
 				+1}\right]
 \end{eqnarray}
-
-Applying the constraint \ref{eqn:etaconstraint} in \ref{eqn:rateot} the expression for rate reduces to
-
+Applying the constraint (\ref{eqn:etaconstraint}) in (\ref{eqn:rateot}) the expression for rate reduces to
 \begin{eqnarray}\label{eqn:finalratebt}
 R_k^{MR} &=& log_2\left[1+ \dfrac{M\rho_b\gamma_{lk}\eta_{lk}}{\rho_b\beta_{lkl}L
-    +V_6
+    +\rho_o[\beta_{lkl}(L+1)-\gamma_{lkl}]
     +1}\right]
 \end{eqnarray}
 

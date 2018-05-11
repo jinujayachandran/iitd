@@ -145,7 +145,6 @@ The received signal at the $k^{th}$ B-terminal is given by
     + w_{lk}(t) 
 \end{eqnarray}
 Substituting (\ref{eq:bfv}), (\ref{eqn:gvect}) in (\ref{eqn:rxbt}) and considering the term for the $k^{th}$ terminal in the $l^{th}$ cell, (\ref{eq:ot}) can be rewritten as
-
 \begin{eqnarray} \label{eqn:completeot}
 	y_{l}(t)  &=& \sqrt{\frac{\rho_b\eta_{lk}}{M\gamma_{lkl}}} \ \pmb{E}[|| \ \pmb{\hat g}_{lkl}||^2]s_{lk}(t)
 	           +  \sqrt{\frac{\rho_b\eta_{lk}}{M\gamma_{lk}}}\left(||\pmb{\hat g}_{lkl}||^2 - \pmb{E}[||\pmb{\hat g}_{lkl}||^2]\right)s_{lk}(t) \nonumber \\    
@@ -161,31 +160,34 @@ Our next aim is to find the SINR by finding the signal power and variances of th
 
 The signal power(SP) can be calculated from the first term as
 \begin{eqnarray}
-	SP %&=& \frac{\rho_b\beta_{lp}^{l}\eta_{lp}}{M\gamma_{lp}^{l}}\pmb{E}[||\pmb{\hat  g_{lp}^{l}}||^2]\pmb{E}[(s_{lp}^{l})^Hs_{lp}^{l}] \nonumber \\
-    %        &=& \frac{\rho_b\beta_{lp}^{l}\eta_{lp}}{M\gamma_{lp}^{l}}(\pmb{E}[||\pmb{\hat g_{lp}^{l}}||^2])^2 \nonumber \\
-            \triangleq \rho_b\eta_{lk}M\gamma_{lkl}
+	SP &\triangleq& \frac{\rho_b\beta_{lkl}\eta_{lk}}{M\gamma_{lk}^{l}}\pmb{E}[||\pmb{\hat  g}_{lkl}||^2]\pmb{E}[s_{lk}^Hs_{lk}] \nonumber \\
+            &=& \frac{\rho_b\beta_{lp}^{l}\eta_{lp}}{M\gamma_{lp}^{l}}(\pmb{E}[||\pmb{\hat g_{lp}^{l}}||^2])^2 \nonumber \\
+            &=& \rho_b\eta_{lk}M\gamma_{lkl}
 \end{eqnarray}
 The variance of UCG is given as
 \begin{eqnarray}\label{eq:noiseF1}
-	V_1 %&=& \frac{\rho_b \beta_{lkl} \eta_{lk}}{M\gamma_{lk}}   \pmb{E}[|s_{lk}\left(||\pmb{\hat g}_{lkl}||^2- \pmb{E}[||\pmb{\hat  g}_{lkl}||^2] \right)|^2] \nonumber \\
-	    &\triangleq& \frac{\rho_b \beta_{lkl} \eta_{lk}}{M\gamma_{lkl}}   \left(\pmb{E}[||\pmb{\hat g}_{lkl}||^4] - (\pmb{E}[||\pmb{\hat g}_{lkl}||^2])^2 \right) \nonumber  \\
-	    &=& \rho_b\beta_{lkl}\eta_{lk}\gamma_{lk}
+	V_1 &\triangleq& \frac{\rho_b \beta_{lkl} \eta_{lk}}{M\gamma_{lk}}   \pmb{E}[|s_{lk}\left(||\pmb{\hat g}_{lkl}||^2- \pmb{E}[||\pmb{\hat  g}_{lkl}||^2] \right)|^2] \nonumber \\
+	    &=& \frac{\rho_b \beta_{lkl} \eta_{lk}}{M\gamma_{lkl}}   \left[\pmb{E}[||\pmb{\hat g}_{lkl}||^4] - (\pmb{E}[||\pmb{\hat g}_{lkl}||^2])^2 \right] \nonumber  \\
+	    &=& \rho_bM\beta_{lkl}\eta_{lk}\gamma_{lk}
 \end{eqnarray}
 (In (\ref{eq:noiseF1}), since $\pmb{\hat g}_{lkl} \sim CN(0,\gamma_{lkl})$, the value of $\pmb{E}[||\pmb{\hat g}_{lkl}||^4]$ is evaluated to be $(M)(M+1)\gamma_{lk}^2$).
 
 The intra-cell interference variance is
 \begin{eqnarray}\label{eq:noiseF2}
 	V_2 &\triangleq& \frac{\rho_b\eta_{lk}}{M\gamma_{lk}} \pmb{E}\left[\Bigm| \pmb{\hat g}_{lkl}  \left(\sum_{\substack{k'=1 \\ k' \neq k}}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{lk'}}} \ \pmb{\hat g}^*_{lk'l} \ s_{lk'l} (t)\right)\Bigm|^2\right] \nonumber \\
+        &=& \frac{\rho_b\eta_{lk}}{M\gamma_{lk}} \sum_{\substack{k'=1 \\ k' \neq k}}^{K} \pmb{Tr}\left(\pmb{E}\left[\Bigm| \pmb{\hat g}_{lkl} \ \pmb{\hat g}_{lkl}^H \ \pmb{\hat g}_{lk'l} \ \pmb{\hat g}_{lk'l}^{H} \right]\right) \nonumber \\
 	    &=&  \rho_b\gamma_{lk}\sum\limits_{\substack{k'=1\\ k'\neq k}}^{K}\eta_{lk'}
 \end{eqnarray}
 The variance of inter-cell interference is given as
 \begin{eqnarray}\label{eq:noiseF3}
-	V_3 &\triangleq& \rho_b \pmb{E}\left[\Bigm|\sum_{\substack{j=1 \\ j \neq l}}^{L} \pmb{\hat g}_{lkl}^T \left(\sum_{k'=1}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{jk'}}} \ \pmb{\hat g}^*_{jk'j} \ s_{kj} (t)\right)\Bigm|^2\right] \nonumber \\
-       &=& M\rho_b\gamma_{lk}\sum_{\substack{j=1 \\ j \neq l}}^{L}\sum_{k'=1}^{K}\eta_{jk'}
+	V_3 &\triangleq& \rho_b \pmb{E}\left[\Bigm|\sum_{\substack{j=1 \\ j \neq l}}^{L} \pmb{\hat g}_{lkl}^T \left(\sum_{k'=1}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{jk'}}} \ \pmb{\hat g}^*_{jk'j} \ s_{kj} (t)\right)\Bigm|^2\right] \nonumber \\ 
+    &=& \rho_b\sum_{\substack{j=1 \\ j \neq l}}^{L} \sum_{k'=1}^{K} \frac{\eta_{jk'}}{M\gamma_{jk'}} \pmb{Tr}\left(\pmb{E}\left[\Bigm| \pmb{\hat g}_{lkl} \ \pmb{\hat g}_{lkl}^H \ \pmb{\hat g}_{jk'l} \ \pmb{\hat g}_{jk'l}^{H} \right]\right) \nonumber \\
+    &=& M\rho_b\gamma_{lk}\sum_{\substack{j=1 \\ j \neq l}}^{L}\sum_{k'=1}^{K}\eta_{jk'}
 \end{eqnarray}
 The variance of channel estimation error is
 \begin{eqnarray}\label{eqn:noiseF4}
 	V_4 &\triangleq& \rho_b \pmb{E} \left[ \Bigm |\sum_{j=1}^{L} \pmb{\widetilde{g}}_{lkl}^T \left(\sum_{k'=1}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{jk'}}} \ \pmb{\hat g}^*_{jk'j} \ s_{kj} (t)\right)\Bigm|^2 \right] \nonumber \\
+     &=& \rho_b\sum_{j=1}^{L} \sum_{k'=1}^{K} \frac{\eta_{jk'}}{M\gamma_{jk'}} \pmb{Tr}\left(\pmb{E}\left[\Bigm| \pmb{\widetilde{g}}_{lkl} \ \pmb{\widetilde{g}}_{lkl}^H \ \pmb{\hat g}_{jk'l} \ \pmb{\hat g}_{jk'l}^{H} \right]\right) \nonumber \\
         &=& \rho_b(\beta_{lkl}-\gamma_{lk})\sum\limits_{k'=1}^{K}\eta_{lk'}\gamma_{jk'}
 \end{eqnarray}
 The variance of the transmission to O-terminals is given by

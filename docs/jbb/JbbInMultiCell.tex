@@ -24,7 +24,7 @@
 
 \title{Joint Beamforming and Broadcasting in Massive MIMO for Multicell Systems}
 \author{}
-\date{April 2018}
+\date{May 2018}
  
 \begin{document}
 \maketitle
@@ -41,14 +41,13 @@
 	Joint Beamforming and Broadcasting(JBB) is a novel idea proposed in \cite{bib:jbb} in which data and the system information is sent simultaneously to different terminals in a cell. The cell to which data is beamformed is called as B-terminals and others are called as O-terminals. The transmission works on the principle that if the data to the O-terminals is sent in the nullspace of channel estimate of the B-terminals then the interference to B-terminals is negligible. The paper \cite{bib:jbb} deals only with a single cell case. In this document we are trying to extend it to multicell case.
 \footnote{The document is mainly for review purpose. The person reading this document is assumed to have a good knowledge on Joint Beamforming and Broadcasting or have read the paper \cite{bib:jbb} along with understanding on massive MIMO multi cell systems.}
 	
-	The aim of the document is to find the achievable rates of transmission for B-terminals along with its power allocation scheme. For the O-terminals we try to bound the rate expression. In the document the following shall be evaluated. For the B-terminals, under the JBB in multi cell scenario, the channel from the base station to the terminals will be estimated. This estimation will be subjected to pilot contamination. Once the channel is estimated the performance of the B-terminals, under JBB. The signal power and the noise powers are evaluated to come up with the achievable rate. For O-terminals, the channel estimation is done during the pilot phase. In the payload phase the signal received at an O-terminal shall be evaluated to get the signal power and noise variances.
-
-	The document tries to follow the notation available in \cite{bib:MassiveMimoBook}. The explanation of notations of all the symbols used are provided in Appendix \ref{app:notation}. Some of the results which are derived or directly stated are already available in \cite{bib:MassiveMimoBook}.
+	The aim of the document is to find the achievable rates of transmission for B-terminals along with its power allocation scheme. For the O-terminals we try to bound the rate expression. In the document the following shall be evaluated. For the B-terminals, under JBB in multi cell scenario, the channel from the base station (BS) to the terminals will be estimated. This estimation will be subject to pilot contamination. Once the channel is estimated the performance of the B-terminals, under JBB are evaluated by considering MR precoding for the B-terminals. The signal power and the noise/interference powers are evaluated to come up with the achievable rate. Using the rate expression, a multicell power control algorithm proposed in \cite{bib:MassiveMimoBook} is used for power allocation to the B-terminals.
+     For O-terminals, the channel estimation is done during the pilot phase. In the payload phase the signal received at an O-terminal shall be evaluated to get the signal power and noise/interference variances. An achievable rate for an O-terminal is then evaluated.
 
 \section{Approach and Assumptions}	
-	In any particular cell the data is sent to B-terminals and O-terminals simultaneously. Also all the base stations transmit the data to their respective terminals at the same time. The base station knows the channel estimate of B-terminals but the channel estimate is not known for the O-terminals. So there is a pilot phase for the O-terminals where the base station sends the pilot signals for the O-terminals to estimate its channel. We assume that during this pilot phase there is no transmission happening for the B-terminals to estimate their own channel.
+	In any particular cell the data is sent to B-terminals and O-terminals simultaneously. Also all the BS transmit data to their respective terminals at the same time. The base station knows the channel estimate of B-terminals but the channel estimate is not known for the O-terminals. So there is a pilot phase for the O-terminals where the BS sends the pilot signals for the O-terminals to estimate its channel. We assume that during this pilot phase there is no transmission happening for the B-terminals to estimate their own channel.
 
-	A multicell system with $L$ cells each cell having $K$ B-terminals which uses the same frequency band are assumed. Each base station is assumed to have $M$ antennas. The transmission from the base station or from the terminals are synchronous both in pilot phase and payload phase. This is to take care off the worst case scenario. The $l^{th}$ base station transmits the $M$-vector
+	A multicell system with $L$ cells each cell having $K$ B-terminals which uses the same frequency band are assumed. Each BS is assumed to have $M$ antennas. The transmission from the BS or from the terminals are synchronous both in pilot phase and payload phase. This is to take care off the worst case scenario. The $l^{th}$ BS transmits the $M$-vector
 \begin{eqnarray}
 	\pmb{x}(t) = \sqrt{\rho_b}\sum\limits_{k'=1}^{K}\boldsymbol{v}_{lk'}s_{lk'}(t)
     		      + \sqrt{\rho_o}\Pi^{\perp}_{{\widehat{G}_l}}
@@ -247,48 +246,61 @@ R_{lk}^{MR} &=& log_2\left[1+\dfrac{M\rho_b\eta_{lk}\gamma_{lkl}}{\rho_b\sum\lim
 
 
 \section{Power Allocation Startergy for B-terminals}
-  The max-min fairness power allocation scheme shall be followed as described in Chapter 5 and 6.2.5 in \cite{bib:MassiveMimoBook}. The basic principle is to make the SINR for all the terminals in a particular cell same. In the multicell system individual cells shall be considered independently under this stratergy. 
+The max-min fairness power allocation is adopted as described in Chapter 5 and 6.2.5 in \cite{bib:MassiveMimoBook}. As per this policy the value of $\eta_{lk}$ shall be chosen so that the rates all the B-terminals in a cell are equal. 
 
-	The stratergy can be explained as follows. Considering the denomintor in (\ref{eqn:rateot}) except the second term all other terms depends directly on the total number of terminals in any particular cell. Thus as long as the number of terminals in a cell is constant these terms an be considered as constant. The second term is the noise from the contaminating cells and depends on the cell under consideration. This is the coherent interference. As the first step in power allocation, we assume that the contamination from other cells is zero, which implies that the denominator is a constant, and design a value for $\eta_{lp}=\hat \eta_{lp}$. Using this value of $\hat \eta_{lp}$ the actual value of SINR (with the coherent interference term) ($\pmb{\widetilde{SINR}}_{lp}^{l}$) is calculated. Dividing this SINR by $\hat \eta_{lp}$ is equivalent to finding the SINR for the terminal with maximum $\eta_{lp}$, i.e 1. Thus an optimum value for $\eta_{lk}$ shall be found by making use of the criteria that, in a particualr cell 
-\begin{eqnarray}\label{eqn:etacriteria}
-	\sum\limits_{k'=1}^{K}\eta_{lk'}=1
-\end{eqnarray}
-	For simplicity let us represent the neumerator in (\ref{eqn:rateot}) as $a_{lp}^{l}\eta_{lp} $, first term in denominator as $b_{lk'}^{l}$, second term as $c_{jk'}^{l}$ and third term as $d_{o}^{j}$. Thus (\ref{eqn:rateot}) becomes
+Let $\bar{R}^{MR}$ be rate to be achieved by all B-terminals. Thus $R_{lk}^{MR} = \bar{R}^{MR}$. Rewriting (\ref{eqn:finalratebt})
 \begin{eqnarray}
-	R_k^{MR} = log_2\left[ 1+ \frac{a_{lp}^{l}\eta_{lp}}{b_{lk'}^{l}+c_{jk'}^{l}+d_{o}^{j}+L}\right]
+    \eta_{lk} &=& (2^{\bar{R}^{MR}} - 1)\left(\dfrac{\rho_b\sum\limits_{j=1}^{L}\beta_{lkj}+\rho_o\sum\limits_{j=1}^{L}(\beta_{lkj} -\gamma_{lkj})+1}{M\rho_b\eta_{lk}\gamma_{lkl}}\right)
 \end{eqnarray}
- As described in the stratergy we assume that $c_{jk'}^{l}$ is zero and design for $\hat \eta_{lp}^{l}$ and applying (\ref{eqn:etacriteria}) we get
+Using the constraint (\ref{eqn:etaconstraint}) the value of $\eta_{lk}$ to achieve $\bar{R}^{MR}$ is
 \begin{eqnarray}
-	\hat \eta_{lp}^{l} &=& \frac{L+b_{lk'}^{l}+d_{o}^{j}}{a_{lp}^{l}\sum\limits_{k'=1}^{K}\frac{L+b_{lk'}^{l}+d_{o}^{j}}{a_{lk'}^{l}}}
+    \eta_{lk} &=& \frac{\rho_b\sum\limits_{j=1}^{L}\beta_{lkj}+\rho_o\sum\limits_{j=1}^{L}(\beta_{lkj} -\gamma_{lkj})+1}{\gamma_{lkl}\mathlarger{\mathlarger{\sum}}\limits_{k'=1}^{K}\left(\dfrac{\rho_b\sum\limits_{j=1}^{L}\beta_{lk'j}+\rho_o\sum\limits_{j=1}^{L}(\beta_{lk'j} -\gamma_{lk'j})+1}{\eta_{lk'}\gamma_{lk'l}}\right)}
 \end{eqnarray}
-Let 
+and the value of rate is given by
 \begin{eqnarray}
-	\pmb{SINR}_{lp} &=& \left(\frac{\pmb{\widetilde{SINR}}_{lp}}{\hat \eta_{lp}}\right) \eta_{lp}\nonumber \\
-                  &=& \hat f_{lp}\eta_{lp}
+    \bar{R}^{MR} =log_2\left(1+\frac{M\rho_b}{\mathlarger{\mathlarger{\sum}}\limits_{k=1}^{K}\left(\frac{\rho_b\sum\limits_{j=1}^{L}\beta_{lkj}+\rho_o\sum\limits_{j=1}^{L}(\beta_{lkj} -\gamma_{lkj})+1}{\gamma_{lkl}}\right)} \right)
 \end{eqnarray}
-Thus using the condition that all the SINRs of the terminals of a cell shall be equal and (\ref{eqn:etacriteria}), the value of $\eta_{lp}$ is
-\begin{eqnarray}
-	\eta_{lp} = \frac{\frac{1}{\hat f_{lp}}}{\sum\limits_{k'=1}^{K}\frac{1}{\hat f_{lp}}}
-\end{eqnarray}
-Substituting the values, the value of $\hat f_{lp}$ is
-\begin{eqnarray}
-	\hat f_{lp} &=& \dfrac{M\rho_b\beta_{lp}^{l}\gamma_{lp}^{l}}
-                            {\rho_b(\beta_{lp}^{l})^2\sum\limits_{k' = 1}^{K}\eta_{lk'}
-                            +\rho_b\beta_{lp}^{l} \sum\limits_{\substack{j=1 \\ j \neq l}}^{L} \sum\limits_{k' = 1}^{K}\beta^{j}_{lp}\eta_{jk'}
-		  	    +\frac{\rho_o}{M'} \sum\limits_{j=1}^{L}\beta_{lp}^{j}
-						   +L}
-\end{eqnarray}
-and the value of $\eta_{lp}$ is
-\begin{eqnarray}
-	\eta_{lp} &=&  \dfrac{\rho_b(\beta_{lp}^{l})^2\sum\limits_{k' = 1}^{K}\eta_{lk'}
-                            +\rho_b\beta_{lp}^{l} \sum\limits_{\substack{j=1 \\ j \neq l}}^{L} \sum\limits_{k' = 1}^{K}\beta^{j}_{lp}\eta_{jk'}
-		  	    +\frac{\rho_o}{M'} \sum\limits_{j=1}^{L}\beta_{lp}^{j}+L}
-			     {\beta_{lp}^{l}\mathlarger{\mathlarger{\sum}}\limits_{k''=1}^{k''=K}\dfrac{
-                            \rho_b(\beta_{lk''}^{l})^2\sum\limits_{k' = 1}^{K}\eta_{lk'}
-                            +\rho_b\beta_{lk''}^{l} \sum\limits_{\substack{j=1 \\ j \neq l}}^{L} \sum\limits_{k' = 1}^{K}\beta^{j}_{lk''}\eta_{jk'}
-		  	    +\frac{\rho_o}{M'} \sum\limits_{j=1}^{L}\beta_{lk''}^{j}
-						   +L}{\beta_{lk''}^{l}}}
-\end{eqnarray}
+  
+%	The stratergy can be explained as follows. Considering the denomintor in (\ref{eqn:rateot}) except the second term all other terms depends directly on the total number of terminals in any particular cell. Thus as long as the number of terminals in a cell is constant these terms an be considered as constant. The second term is the noise from the contaminating cells and depends on the cell under consideration. This is the coherent interference. As the first step in power allocation, we assume that the contamination from other cells is zero, which implies that the denominator is a constant, and design a value for $\eta_{lp}=\hat \eta_{lp}$. Using this value of $\hat \eta_{lp}$ the actual value of SINR (with the coherent interference term) ($\pmb{\widetilde{SINR}}_{lp}^{l}$) is calculated. Dividing this SINR by $\hat \eta_{lp}$ is equivalent to finding the SINR for the terminal with maximum $\eta_{lp}$, i.e 1. Thus an optimum value for $\eta_{lk}$ shall be found by making use of the criteria that, in a particualr cell 
+%\begin{eqnarray}\label{eqn:etacriteria}
+%	\sum\limits_{k'=1}^{K}\eta_{lk'}=1
+%\end{eqnarray}
+%	For simplicity let us represent the neumerator in (\ref{eqn:rateot}) as $a_{lp}^{l}\eta_{lp} $, first term in denominator as $b_{lk'}^{l}$, second term as $c_{jk'}^{l}$ and third term as $d_{o}^{j}$. Thus (\ref{eqn:rateot}) becomes
+%\begin{eqnarray}
+%	R_k^{MR} = log_2\left[ 1+ \frac{a_{lp}^{l}\eta_{lp}}{b_{lk'}^{l}+c_{jk'}^{l}+d_{o}^{j}+L}\right]
+%\end{eqnarray}
+% As described in the stratergy we assume that $c_{jk'}^{l}$ is zero and design for $\hat \eta_{lp}^{l}$ and applying (\ref{eqn:etacriteria}) we get
+%\begin{eqnarray}
+%	\hat \eta_{lp}^{l} &=& \frac{L+b_{lk'}^{l}+d_{o}^{j}}{a_{lp}^{l}\sum\limits_{k'=1}^{K}\frac{L+b_{lk'}^{l}+d_{o}^{j}}{a_{lk'}^{l}}}
+%\end{eqnarray}
+%Let 
+%\begin{eqnarray}
+%	\pmb{SINR}_{lp} &=& \left(\frac{\pmb{\widetilde{SINR}}_{lp}}{\hat \eta_{lp}}\right) \eta_{lp}\nonumber \\
+%                  &=& \hat f_{lp}\eta_{lp}
+%\end{eqnarray}
+%Thus using the condition that all the SINRs of the terminals of a cell shall be equal and (\ref{eqn:etacriteria}), the value of $\eta_{lp}$ is
+%\begin{eqnarray}
+%	\eta_{lp} = \frac{\frac{1}{\hat f_{lp}}}{\sum\limits_{k'=1}^{K}\frac{1}{\hat f_{lp}}}
+%\end{eqnarray}
+%Substituting the values, the value of $\hat f_{lp}$ is
+%\begin{eqnarray}
+%	\hat f_{lp} &=& \dfrac{M\rho_b\beta_{lp}^{l}\gamma_{lp}^{l}}
+%                            {\rho_b(\beta_{lp}^{l})^2\sum\limits_{k' = 1}^{K}\eta_{lk'}
+%                            +\rho_b\beta_{lp}^{l} \sum\limits_{\substack{j=1 \\ j \neq l}}^{L} \sum\limits_{k' = 1}^{K}\beta^{j}_{lp}\eta_{jk'}
+%		  	    +\frac{\rho_o}{M'} \sum\limits_{j=1}^{L}\beta_{lp}^{j}
+%						   +L}
+%\end{eqnarray}
+%and the value of $\eta_{lp}$ is
+%\begin{eqnarray}
+%	\eta_{lp} &=&  \dfrac{\rho_b(\beta_{lp}^{l})^2\sum\limits_{k' = 1}^{K}\eta_{lk'}
+%                            +\rho_b\beta_{lp}^{l} \sum\limits_{\substack{j=1 \\ j \neq l}}^{L} \sum\limits_{k' = 1}^{K}\beta^{j}_{lp}\eta_{jk'}
+%		  	    +\frac{\rho_o}{M'} \sum\limits_{j=1}^{L}\beta_{lp}^{j}+L}
+%			     {\beta_{lp}^{l}\mathlarger{\mathlarger{\sum}}\limits_{k''=1}^{k''=K}\dfrac{
+%                            \rho_b(\beta_{lk''}^{l})^2\sum\limits_{k' = 1}^{K}\eta_{lk'}
+%                            +\rho_b\beta_{lk''}^{l} \sum\limits_{\substack{j=1 \\ j \neq l}}^{L} \sum\limits_{k' = 1}^{K}\beta^{j}_{lk''}\eta_{jk'}
+%		  	    +\frac{\rho_o}{M'} \sum\limits_{j=1}^{L}\beta_{lk''}^{j}
+%						   +L}{\beta_{lk''}^{l}}}
+%\end{eqnarray}
 
 \section{Performance of the O-terminals}
 	The O-terminals receive the signal which is a combination of data to the B-terminals, the data for the O-terminal and the noise. We assume the O-terminal experiences independent Rayleigh fading such that $\pmb{h_{l}} \sim CN(0,\pmb{C_h}$) where $\pmb{C_h} = \beta_{ol}I$. The channel from the base station to the terminals shall be estimated first. Using this estimated value, with JBB, the received signal at the O-terminal shall be evaluated to find the signal power. noise variances and the achievable rate.

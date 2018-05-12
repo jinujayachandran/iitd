@@ -122,8 +122,7 @@ The variance of the estimate and that of the error can be calculated as
 The data received at the $k^{th}$ terminal of the $l^{th}$ cell is given by
 \begin{eqnarray}\label{eq:ot}
  	y_{l}(t) = \sqrt{\rho_b}\sum_{j=1}^{L} \sqrt{\beta_{lkj}} \pmb{g}_{lkj}^{T} \left(\sum_{k'=1}^{K}\pmb{v}_{jk'}s_{jk'}(t)\right)
- 		      + \sqrt{\rho_o}\sum_{j=1}^{L}\sqrt{\beta_{lkj}}\pmb{g}^T_{lkj} \Pi^{\perp}_{{\widehat{G}_j}} \pmb{U}_j\pmb{q}_{j} \nonumber \\
- 		      + \pmb{w}_{l}(t)
+ 		      + \sqrt{\rho_o}\sum_{j=1}^{L}\sqrt{\beta_{lkj}}\pmb{g}^T_{lkj} \Pi^{\perp}_{{\widehat{G}_j}} \pmb{U}_j\pmb{q}_{j}+ \pmb{w}_{l}(t)
 \end{eqnarray}  
 where  $\pmb{g}_{lkj}$ is the channel response having $CN(0,\beta_{lkj})$ elements. The value of $\pmb{g}_{lkj}$ can be written as
 \begin{eqnarray}\label{eqn:gvect}
@@ -150,7 +149,7 @@ Substituting (\ref{eq:bfv}), (\ref{eqn:gvect}) in (\ref{eqn:rxbt}) and consideri
 	           +  \sqrt{\frac{\rho_b\eta_{lk}}{M\gamma_{lk}}}\left(||\pmb{\hat g}_{lkl}||^2 - \pmb{E}[||\pmb{\hat g}_{lkl}||^2]\right)s_{lk}(t) \nonumber \\    
                &+& \sqrt{\rho_b} \ \pmb{\hat g}_{lkl}^T \left(\sum_{\substack{k'=1 \\ k' \neq k}}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{lk'}}} \ \pmb{\hat g}^*_{lk'l} \ s_{lk'l} (t)\right) 
                + \sqrt{\rho_b} \sum_{\substack{j=1 \\ j \neq l}}^{L} \pmb{\hat g}_{lkl}^T \left(\sum_{k'=1}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{jk'}}} \ \pmb{\hat g}^*_{jk'j} \ s_{kj} (t)\right)\nonumber \\
-               &-& \sqrt{\rho_b} \sum_{j=1}^{L} \pmb{\widetilde{g}}_{lkl}^T \left(\sum_{k'=1}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{jk'}}} \ \pmb{\hat g}^*_{jk'j} \ s_{kj} (t)\right) 
+               &-& \sqrt{\rho_b} \sum_{j=1}^{L} \pmb{\widetilde{g}}_{lkj}^T \left(\sum_{k'=1}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{jk'}}} \ \pmb{\hat g}^*_{jk'j} \ s_{kj} (t)\right) 
                + \sqrt{\rho_o}\sum_{j=1}^{L}\pmb{g}_{lkj} \Pi_{\frac{1}{\pmb{\hat G}_j}} \pmb{U}_j \pmb{q}_{j}
                + w_{lk}(t)      
 \end{eqnarray}
@@ -160,64 +159,58 @@ Our next aim is to find the SINR by finding the signal power and variances of th
 
 The signal power(SP) can be calculated from the first term as
 \begin{eqnarray}
-	SP &\triangleq& \frac{\rho_b\beta_{lkl}\eta_{lk}}{M\gamma_{lk}^{l}}\pmb{E}[||\pmb{\hat  g}_{lkl}||^2]\pmb{E}[s_{lk}^Hs_{lk}] \nonumber \\
-            &=& \frac{\rho_b\beta_{lp}^{l}\eta_{lp}}{M\gamma_{lp}^{l}}(\pmb{E}[||\pmb{\hat g_{lp}^{l}}||^2])^2 \nonumber \\
+	SP &\triangleq& \frac{\rho_b\eta_{lk}}{M\gamma_{lkl}}\pmb{E}[||\pmb{\hat  g}_{lkl}||^2]\pmb{E}[s_{lk}^Hs_{lk}] \nonumber \\
+            &=& \frac{\rho_b\eta_{lp}}{M\gamma_{lkl}}(\pmb{E}[||\pmb{\hat g_{lp}^{l}}||^2])^2 \nonumber \\
             &=& \rho_b\eta_{lk}M\gamma_{lkl}
 \end{eqnarray}
 The variance of UCG is given as
 \begin{eqnarray}\label{eq:noiseF1}
 	V_1 &\triangleq& \frac{\rho_b \beta_{lkl} \eta_{lk}}{M\gamma_{lk}}   \pmb{E}[|s_{lk}\left(||\pmb{\hat g}_{lkl}||^2- \pmb{E}[||\pmb{\hat  g}_{lkl}||^2] \right)|^2] \nonumber \\
-	    &=& \frac{\rho_b \beta_{lkl} \eta_{lk}}{M\gamma_{lkl}}   \left[\pmb{E}[||\pmb{\hat g}_{lkl}||^4] - (\pmb{E}[||\pmb{\hat g}_{lkl}||^2])^2 \right] \nonumber  \\
-	    &=& \rho_bM\beta_{lkl}\eta_{lk}\gamma_{lk}
+	    &=& \frac{\rho_b \eta_{lk}}{M\gamma_{lkl}}   \left[\pmb{E}[||\pmb{\hat g}_{lkl}||^4] - (\pmb{E}[||\pmb{\hat g}_{lkl}||^2])^2 \right] \nonumber  \\
+	    &=& \rho_b\eta_{lk}\gamma_{lkl}
 \end{eqnarray}
 (In (\ref{eq:noiseF1}), since $\pmb{\hat g}_{lkl} \sim CN(0,\gamma_{lkl})$, the value of $\pmb{E}[||\pmb{\hat g}_{lkl}||^4]$ is evaluated to be $(M)(M+1)\gamma_{lk}^2$).
 
 The intra-cell interference variance is
 \begin{eqnarray}\label{eq:noiseF2}
-	V_2 &\triangleq& \frac{\rho_b\eta_{lk}}{M\gamma_{lk}} \pmb{E}\left[\Bigm| \pmb{\hat g}_{lkl}  \left(\sum_{\substack{k'=1 \\ k' \neq k}}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{lk'}}} \ \pmb{\hat g}^*_{lk'l} \ s_{lk'l} (t)\right)\Bigm|^2\right] \nonumber \\
-        &=& \frac{\rho_b\eta_{lk}}{M\gamma_{lk}} \sum_{\substack{k'=1 \\ k' \neq k}}^{K} \pmb{Tr}\left(\pmb{E}\left[\Bigm| \pmb{\hat g}_{lkl} \ \pmb{\hat g}_{lkl}^H \ \pmb{\hat g}_{lk'l} \ \pmb{\hat g}_{lk'l}^{H} \right]\right) \nonumber \\
-	    &=&  \rho_b\gamma_{lk}\sum\limits_{\substack{k'=1\\ k'\neq k}}^{K}\eta_{lk'}
+	V_2 &\triangleq& \frac{\rho_b\eta_{lk}}{M\gamma_{lk}} \pmb{E}\left[\Bigm| \pmb{\hat g}^T_{lkl}  \left(\sum_{\substack{k'=1 \\ k' \neq k}}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{lk'l}}} \ \pmb{\hat g}^*_{lk'l} \ s_{lk'l} (t)\right)\Bigm|^2\right] \nonumber \\
+        &=& \frac{\rho_b\eta_{lk}}{M\gamma_{lkl}} \sum_{\substack{k'=1 \\ k' \neq k}}^{K} \pmb{Tr}\left(\pmb{E}\left[\Bigm| \pmb{\hat g}^T_{lkl} \ \pmb{\hat g}_{lkl}^* \ \pmb{\hat g}^T_{lk'l} \ \pmb{\hat g}_{lk'l}^{*} \right]\right) \nonumber \\
+	    &=&  \rho_b\gamma_{lkl}\sum\limits_{\substack{k'=1\\ k'\neq k}}^{K}\eta_{lk'}
 \end{eqnarray}
 The variance of inter-cell interference is given as
 \begin{eqnarray}\label{eq:noiseF3}
-	V_3 &\triangleq& \rho_b \pmb{E}\left[\Bigm|\sum_{\substack{j=1 \\ j \neq l}}^{L} \pmb{\hat g}_{lkl}^T \left(\sum_{k'=1}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{jk'}}} \ \pmb{\hat g}^*_{jk'j} \ s_{kj} (t)\right)\Bigm|^2\right] \nonumber \\ 
-    &=& \rho_b\sum_{\substack{j=1 \\ j \neq l}}^{L} \sum_{k'=1}^{K} \frac{\eta_{jk'}}{M\gamma_{jk'}} \pmb{Tr}\left(\pmb{E}\left[\Bigm| \pmb{\hat g}_{lkl} \ \pmb{\hat g}_{lkl}^H \ \pmb{\hat g}_{jk'l} \ \pmb{\hat g}_{jk'l}^{H} \right]\right) \nonumber \\
-    &=& M\rho_b\gamma_{lk}\sum_{\substack{j=1 \\ j \neq l}}^{L}\sum_{k'=1}^{K}\eta_{jk'}
+	V_3 &\triangleq& \rho_b \pmb{E}\left[\Bigm|\sum_{\substack{j=1 \\ j \neq l}}^{L} \pmb{\hat g}_{lkj}^T \left(\sum_{k'=1}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{jk'j}}} \ \pmb{\hat g}^*_{jk'j} \ s_{kj} (t)\right)\Bigm|^2\right] \nonumber \\ 
+    &=& \rho_b\sum_{\substack{j=1 \\ j \neq l}}^{L} \sum_{k'=1}^{K} \frac{\eta_{jk'}}{M\gamma_{jk'}} \pmb{Tr}\left(\pmb{E}\left[\Bigm| \pmb{\hat g}_{lkj}^T \ \pmb{\hat g}_{lkj}^* \ \pmb{\hat g}_{jk'j}^T \ \pmb{\hat g}_{jk'l}^{*} \right]\right) \nonumber \\
+    &=& \rho_b\sum_{\substack{j=1 \\ j \neq l}}^{L}\gamma_{lkj}\left(\sum_{k'=1}^{K}\eta_{jk'}\right)
 \end{eqnarray}
 The variance of channel estimation error is
 \begin{eqnarray}\label{eqn:noiseF4}
-	V_4 &\triangleq& \rho_b \pmb{E} \left[ \Bigm |\sum_{j=1}^{L} \pmb{\widetilde{g}}_{lkl}^T \left(\sum_{k'=1}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{jk'}}} \ \pmb{\hat g}^*_{jk'j} \ s_{kj} (t)\right)\Bigm|^2 \right] \nonumber \\
-     &=& \rho_b\sum_{j=1}^{L} \sum_{k'=1}^{K} \frac{\eta_{jk'}}{M\gamma_{jk'}} \pmb{Tr}\left(\pmb{E}\left[\Bigm| \pmb{\widetilde{g}}_{lkl} \ \pmb{\widetilde{g}}_{lkl}^H \ \pmb{\hat g}_{jk'l} \ \pmb{\hat g}_{jk'l}^{H} \right]\right) \nonumber \\
-        &=& \rho_b(\beta_{lkl}-\gamma_{lk})\sum\limits_{k'=1}^{K}\eta_{lk'}\gamma_{jk'}
+	V_4 &\triangleq& \rho_b \pmb{E} \left[ \Bigm |\sum_{j=1}^{L} \pmb{\widetilde{g}}_{lkj}^T \left(\sum_{k'=1}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{jk'j}}} \ \pmb{\hat g}^*_{jk'j} \ s_{kj} (t)\right)\Bigm|^2 \right] \nonumber \\
+     &=& \rho_b\sum_{j=1}^{L} \sum_{k'=1}^{K} \frac{\eta_{jk'}}{M\gamma_{jk'j}} \pmb{Tr}\left(\pmb{E}\left[\Bigm| \pmb{\widetilde{g}}^T_{lkj} \ \pmb{\widetilde{g}}_{lkj}^* \ \pmb{\hat g}_{jk'j}^T \ \pmb{\hat g}_{jk'j}^{*} \right]\right) \nonumber \\
+        &=& \rho_b\sum\limits_{j'=1}^{L}(\beta_{lk}-\gamma_{lk})\left(\sum\limits_{k'=1}^{K}\eta_{lk'}\right)
 \end{eqnarray}
 The variance of the transmission to O-terminals is given by
 \begin{eqnarray}\label{eqn:noiseF4_1}
-	V_6 &\triangleq& \rho_o\sum_{j=1}^{L}\pmb{E}\left[|\pmb{g}_{lkj}^T\Pi^{\perp}_{{\widehat{\pmb{G}}_j}}\pmb{U}_j \pmb{q}_{j}|^2\right] \\
-            &=&       \frac{\rho_o}{M'}\sum_{j=1}^{L}\sum_{i=1}^{L} \pmb{Tr}\left(\pmb{E}\left[\pmb{U}_j^H \Pi^{\perp}_{\pmb{\widehat{G}}_j} \pmb{g}_{lkl}^* \pmb{g}_{lkl}^{T}\Pi^{\perp}_{\pmb{\hat G}_i} \pmb{U}_i \right]\right)
+	V_5 &\triangleq& \rho_o\sum_{j=1}^{L}\pmb{E}\left[|\pmb{g}_{lkj}^T\Pi^{\perp}_{{\widehat{\pmb{G}}_j}}\pmb{U}_j \pmb{q}_{j}|^2\right] \nonumber \\
+            &=&       \frac{\rho_o}{M'}\sum_{j=1}^{L}\sum_{i=1}^{L} \pmb{Tr}\left(\pmb{E}\left[\pmb{U}_j^H \Pi^{\perp}_{\pmb{\widehat{G}}_j} \pmb{g}_{lkj}^* \pmb{g}_{lki}^{T}\Pi^{\perp}_{\pmb{\hat G}_i} \pmb{U}_i \right]\right)
+\end{eqnarray}
+Consider the scenario when $i=j$. When conditioned on $\pmb{\hat G}_m$, $\pmb{U}_ml$ is fixed so that
+(\ref{eqn:noiseF4_1}) can be written as 
+\begin{eqnarray}\label{eqn:v6m}
+V_{6,i=j}&\triangleq& \frac{\rho_o}{M'}\sum_{j=1}^{L} \pmb{Tr}\left(\pmb{E}\left[\pmb{U}_j^H \Pi^{\perp}_{\pmb{\widehat{G}}_j} \pmb{g}_{lkj}^* \pmb{g}_{lkj}^{T}\Pi^{\perp}_{\pmb{\hat G}_j} \pmb{U}_j \right]\right) \nonumber \\
+           &=& \frac{\rho_o}{M'}\pmb{Tr}\left(\pmb{E}\left[\pmb{U}_j^H \Pi^{\perp}_{\pmb{\widehat{G}}_j} \pmb{E}[\pmb{g}_{lkj}^* \pmb{g}_{lkj}^{T} | \pmb{\hat G_j}]\Pi^{\perp}_{\pmb{\hat G}_j} \pmb{U}_j \right]\right)
 \end{eqnarray}
 Note that 
 \begin{eqnarray}\label{eqn:conditionghat}
-    E[\pmb{g}_{lkl}^*\pmb{g}_{lkl}^T|\pmb{\hat G}_l] = \pmb{\hat g}_{lkl}^*\pmb{\hat g}_{lkl}^T + (\beta_{lkl}-\gamma_{lkl}\pmb{I})
-\end{eqnarray} 
-Consider the scenario $i=k=l$. When conditioned on $\pmb{\hat G}_l$, $\pmb{U}_l$ is fixed so that
-(\ref{eqn:noiseF4_1}) can be written as 
-\begin{eqnarray}\label{eqn:jeqkeql}
-   V_{6,i=j=l} \triangleq \frac{\rho_o}{M'}\pmb{Tr}\left(\pmb{E}\left[\pmb{U}_j^H \Pi^{\perp}_{\pmb{\widehat{G}}_j} \pmb{E}[\pmb{g}_{lkl}^* \pmb{g}_{lkl}^{T}]\Pi^{\perp}_{\pmb{\hat G}_i} \pmb{U}_i \right]\right)
+E[\pmb{g}_{lkl}^*\pmb{g}_{lkl}^T|\pmb{\hat G}_l] = \pmb{\hat g}_{lkl}^*\pmb{\hat g}_{lkl}^T + (\beta_{lkl}-\gamma_{lkl}\pmb{I})
 \end{eqnarray}
-Substituting (\ref{eqn:conditionghat}) and using the facts that $\Pi^{\perp}_{\pmb{\hat G}_l}\pmb{\hat g}_{lkl} = 0$ and $\pmb{U}_l^H\pmb{U}_l=\pmb{I}$, (\ref{eqn:jeqkeql}) can be evaluated to be
+Substituting (\ref{eqn:conditionghat}) and using the facts that $\Pi^{\perp}_{\pmb{\hat G}_m}\pmb{\hat g}_{lkm} = 0$ and $\pmb{U}_m^H\pmb{U}_m=\pmb{I}$, (\ref{eqn:v6m}) can be evaluated to be
 \begin{eqnarray}\label{eqn:v6l}
-V_{6,i=j=l} &=& \rho_o(\beta_{lkl} - \gamma_{lkl})
+V_{6,i=j}= \rho_o\sum\limits_{j=1}^{L}(\beta_{lkj} -\gamma_{lkj})
 \end{eqnarray}
-Next, consider the scenario $i=j=m\neq l$ and define
-\begin{eqnarray}\label{eqn:v6m}
-    V_{6,m\neq l}   &=& \frac{\rho_o}{M'}\sum_{m=1}^{L} \pmb{Tr}\left(\pmb{E}\left[\pmb{U}_m^H \Pi^{\perp}_{\pmb{\widehat{G}}_m} \pmb{g}_{lkl}^* \pmb{g}_{lkl}^{T}\Pi^{\perp}_{\pmb{\hat G}_m} \pmb{U}_m \right]\right) \nonumber \\
-                    &=&  \frac{\rho_o}{M'}\sum_{m=1}^{L} \pmb{Tr}\left(\pmb{E}\left[\pmb{U}_m^H \Pi^{\perp}_{\pmb{\widehat{G}}_m} \pmb{U}_m\right] \pmb{E}\left[ \pmb{g}_{lkl}^* \pmb{g}_{lkl}^{T} \right]\right) \nonumber \\
-                    &=& \rho_oL\beta_{lkl}
-\end{eqnarray}
-For the scenario where $i\neq j$ and $i,j \neq l$ since the channel estimates of different cells are independent and with zero mean the $\pmb{E}\left[\pmb{U}_j^H\Pi^{\perp}_{\pmb{\widehat{G}}_j}\Pi^{\perp}_{\pmb{\widehat{G}}_i} \pmb{U}_i\right]$ = $\pmb{E}[\pmb{U}_j^H\pmb{U}_i] =0$. Thus the variance of the transmission to the O-terminals is
+For the scenario where $i\neq j$, since the channel estimates of different cells are independent and with zero mean, $\pmb{E}\left[\pmb{U}_j^H\Pi^{\perp}_{\pmb{\widehat{G}}_j}\Pi^{\perp}_{\pmb{\widehat{G}}_i} \pmb{U}_i\right]$ = $\pmb{E}[\pmb{U}_j^H\pmb{U}_i] =0$. Thus the variance of the transmission to the O-terminals is
 \begin{eqnarray}\label{eqn:v6}
-   V_6 &=& V_{6,i=j=l} + V_{6,m\neq l} \nonumber \\
-       &=& \rho_o[\beta_{lkl}(L+1)-\gamma_{lkl}]
+   V_6 &=& \rho_o\sum\limits_{j=1}^{L}(\beta_{lkj} -\gamma_{lkj})
 \end{eqnarray}
 The variance of the AWGN noise term is calculated as $1$.
 %Thus the SINR of the system can be written as 
@@ -237,17 +230,19 @@ Thus the value of the rate for the $k^{th}$ terminal of the $l^{th}$ cell can be
 %	+V_6
 %	+1}\right]
 %\end{eqnarray}
-
 \begin{eqnarray}\label{eqn:rateot}
-	R_k^{MR} &=& log_2\left[1+ \dfrac{M\rho_b\gamma_{lk}\eta_{lk}}{\rho_b\beta_{lkl}\sum\limits_{j=1}^{L} \sum\limits_{k' = 1}^{K}\eta_{jk'}
-				+\rho_o[\beta_{lkl}(L+1)-\gamma_{lkl}]
-				+1}\right]
+R_{lk}^{MR} &=& log_2\left[1+ \dfrac{M\rho_b\eta_{lk}\gamma_{lkl}}
+{\splitdfrac{\rho_b\eta_{lk}\gamma_{lkl}
+    +\rho_b\gamma_{lkl}\sum\limits_{\substack{k'=1\\ k'\neq k}}^{K}\eta_{lk'}
+    +\rho_b\sum\limits_{\substack{j=1 \\ j \neq l}}^{L}\gamma_{lkj}\left(\sum\limits_{k'=1}^{K}\eta_{jk'}\right)}
+    {+\rho_b\sum\limits_{j'=1}^{L}(\beta_{lk}-\gamma_{lk})\left(\sum\limits_{k'=1}^{K}\eta_{lk'}\right)
+    +\rho_o\sum\limits_{j=1}^{L}(\beta_{lkj} -\gamma_{lkj})
+    +1}}\right] \nonumber \\
+        &=& log_2\left[1+\dfrac{M\rho_b\eta_{lk}\gamma_{lkl}}{\rho_b\sum\limits_{j=1}^{L}\beta_{lkj}\left(\sum\limits_{k'=1}^{K}\eta_{jk'}\right)+\rho_o\sum\limits_{j=1}^{L}(\beta_{lkj} -\gamma_{lkj})+1}\right]
 \end{eqnarray}
 Applying the constraint (\ref{eqn:etaconstraint}) in (\ref{eqn:rateot}) the expression for rate reduces to
 \begin{eqnarray}\label{eqn:finalratebt}
-R_k^{MR} &=& log_2\left[1+ \dfrac{M\rho_b\gamma_{lk}\eta_{lk}}{\rho_b\beta_{lkl}L
-    +\rho_o[\beta_{lkl}(L+1)-\gamma_{lkl}]
-    +1}\right]
+R_{lk}^{MR} &=& log_2\left[1+\dfrac{M\rho_b\eta_{lk}\gamma_{lkl}}{\rho_b\sum\limits_{j=1}^{L}\beta_{lkj}+\rho_o\sum\limits_{j=1}^{L}(\beta_{lkj} -\gamma_{lkj})+1}\right]
 \end{eqnarray}
 
 

@@ -38,21 +38,21 @@
 %\end{titlepage}
  
 \section{Introduction}
-	Joint Beamforming and Broadcasting(JBB) is a novel idea proposed in \cite{bib:jbb} in which data and the system information is sent simultaneously to different terminals in a cell. The cell to which data is beamformed is called as B-terminals and others are called as O-terminals. The transmission works on the principle that if the data to the O-terminals is sent in the nullspace of channel estimate of the B-terminals then the interference to B-terminals is negligible. The paper \cite{bib:jbb} deals only with a single cell case. In this document we are trying to extend it to multicell case.
+	Joint Beamforming and Broadcasting (JBB) is a novel idea proposed in \cite{bib:jbb} in which data and the system information (SI) is sent simultaneously to different terminals in a cell. The cell to which data is beamformed is called as B-terminals (BT) and others are called as O-terminals (OT). The transmission works on the principle that if the data to the OT is sent in the nullspace of channel estimate of the BT then the interference to BT is negligible. Only the single cell case is delt in \cite{bib:jbb}. In this document we are trying to extend it to multicell scenario.
 \footnote{The document is mainly for review purpose. The person reading this document is assumed to have a good knowledge on Joint Beamforming and Broadcasting or have read the paper \cite{bib:jbb} along with understanding on massive MIMO multi cell systems.}
 	
-	The aim of the document is to find the achievable rates of transmission for B-terminals along with its power allocation scheme. For the O-terminals we try to bound the rate expression. In the document the following shall be evaluated. For the B-terminals, under JBB in multi cell scenario, the channel from the base station (BS) to the terminals will be estimated. This estimation will be subject to pilot contamination. Once the channel is estimated the performance of the B-terminals, under JBB are evaluated by considering MR precoding for the B-terminals. The signal power and the noise/interference powers are evaluated to come up with the achievable rate. Using the rate expression, a multicell power control algorithm proposed in \cite{bib:MassiveMimoBook} is used for power allocation to the B-terminals.
-     For O-terminals, the channel estimation is done during the pilot phase. In the payload phase the signal received at an O-terminal shall be evaluated to get the signal power and noise/interference variances. An achievable rate for an O-terminal is then evaluated.
+	The aim of the document is to find the achievable rates of transmission for BT along with its power allocation scheme. For the OT we try to bound the rate expression. In the document the following shall be evaluated. For the BT, under JBB in multi cell scenario, the channel from the base station (BS) to the terminals will be estimated. This estimation will be subject to pilot contamination. Once the channel is estimated the performance of the BT, under JBB are evaluated by considering MR precoding for the BT. The signal power and the noise/interference powers are evaluated to come up with the achievable rate. Using the rate expression, a multicell power control algorithm proposed in \cite{bib:MassiveMimoBook} is used for power allocation to the BT.
+     For OT, the channel estimation is done during the pilot phase. In the payload phase the signal received at an O-terminal shall be evaluated to get the signal power and noise/interference variances. An achievable rate for an O-terminal is then evaluated.
 
 \section{Approach and Assumptions}	
-	In any particular cell the data is sent to B-terminals and O-terminals simultaneously. Also all the BS transmit data to their respective terminals at the same time. The base station knows the channel estimate of B-terminals but the channel estimate is not known for the O-terminals. So there is a pilot phase for the O-terminals where the BS sends the pilot signals for the O-terminals to estimate its channel. We assume that during this pilot phase there is no transmission happening for the B-terminals to estimate their own channel.
+	In any particular cell the data is sent to BT and OT simultaneously. Also all the BS transmit data to their respective terminals at the same time. The base station knows the channel estimate of BT but the channel estimate is not known for the OT. So there is a pilot phase for the OT where the BS sends the pilot signals for the OT to estimate its channel. We assume that during this pilot phase there is no transmission happening for the BT to estimate their own channel.
 
-	A multicell system with $L$ cells each cell having $K$ B-terminals which uses the same frequency band are assumed. Each BS is assumed to have $M$ antennas. The transmission from the BS or from the terminals are synchronous both in pilot phase and payload phase. This is to take care off the worst case scenario. The $l^{th}$ BS transmits the $M$-vector
+	A multicell system with $L$ cells each cell having $K$ BT which uses the same frequency band are assumed. Each BS is assumed to have $M$ antennas. The transmission from the BS or from the terminals are synchronous both in pilot phase and payload phase. This is to take care of the worst case scenario. The $l^{th}$ BS transmits the $M$-vector
 \begin{eqnarray}
 	\pmb{x}(t) = \sqrt{\rho_b}\sum\limits_{k'=1}^{K}\boldsymbol{v}_{lk'}s_{lk'}(t)
     		      + \sqrt{\rho_o}\Pi^{\perp}_{{\widehat{G}_l}}
 \end{eqnarray}
-where $\pmb{v}_{lk'}$ and $s_{lk'}(t)$ are the beamforming vectors and information symbols for the $k'^{th}$ user terminal (UT) in the $l^{th}$ cell, $z_l(t)$ is the system information containing vector intended for the O-terminals and $\Pi^{\perp}_{{\widehat{G}_l}}$ denotes the projection onto the space orthogonal to the column space of $\hat G_l$. The symbols, $s_{lk'}(t)$ are assumed to have zero mean and unit variances, and the beamforming vectors $\pmb{v}_{lk'}$ depends on the estimate of the channel gain from UTs in the $l^{th}$ cell to the BS of $l^{th}$ cell. 
+where $\pmb{v}_{lk'}$ and $s_{lk'}(t)$ are the beamforming vectors and information symbols for the $k'^{th}$ user terminal (UT) in the $l^{th}$ cell, $z_l(t)$ is the system information containing vector intended for the OT and $\Pi^{\perp}_{{\widehat{G}_l}}$ denotes the projection onto the space orthogonal to the column space of $\hat G_l$. The symbols, $s_{lk'}(t)$ are assumed to have zero mean and unit variances, and the beamforming vectors $\pmb{v}_{lk'}$ depends on the estimate of the channel gain from UTs in the $l^{th}$ cell to the BS of $l^{th}$ cell. 
 The beamforming vectors also satisfy the criterion
 \begin{eqnarray}
 	\pmb{E}\left[||\sum\limits_{k'=1}^{L}\pmb{v}_{lk'}||^2\right]=1.
@@ -61,15 +61,15 @@ and $z_l(t)$ is normalized such that
 \begin{eqnarray}\label{eqn:zlcondition}
 	\pmb{E}\left[||\Pi^{\perp}_{{\widehat{G}_l}}z_l(t)||^2\right]=1.
 \end{eqnarray}
-The O-terminal sees $z_l(t)$ transmitted over the channel with effective channel response $\Pi_{\frac{1}{\pmb{\hat G}_l}}\pmb{h}_l$ which is unknown to the O-terminal. We assume that $z_l(t)$ is confined to a subspace of dimension $M'$, where $M'\leq M$ and $z(t) = \pmb{U}_l\pmb{q}_l(t)$. The vector $\pmb{q}_l(t)$ are the information symbols relating to the system information (SI) and are iid $CN(0,\zeta)$ distributed. Further, the SIs send from all the cells are assumed to be same. From \cite{bib:jbb} it follows that $\zeta=\frac{1}{M'}$. $\pmb{U}_l$ is a $M\times M'$ semi-unitary matrix which is unknown to the O-terminals. Under independent Rayleigh fading we assume $\pmb{U}_l^H\pmb{U}_l=I$ and $\Pi_{\frac{1}{\pmb{\hat G}_l}}\pmb{U}_l=\pmb{U}_l$ same as in \cite{bib:jbb}. In addition, without loss of generality, it is assumed that \pmb{E}[$\pmb{U}_j^H\pmb{U}_l]=0$.
+The O-terminal sees $z_l(t)$ transmitted over the channel with effective channel response $\Pi_{\frac{1}{\pmb{\hat G}_l}}\pmb{h}_l$ which is unknown to the O-terminal. We assume that $z_l(t)$ is confined to a subspace of dimension $M'$, where $M'\leq M$ and $z(t) = \pmb{U}_l\pmb{q}_l(t)$. The vector $\pmb{q}_l(t)$ are the information symbols relating to the SI and are i.i.d $CN(0,\zeta)$ distributed. Further, the SIs send from all the cells are assumed to be same. From \cite{bib:jbb} it follows that $\zeta=\frac{1}{M'}$. $\pmb{U}_l$ is a $M\times M'$ semi-unitary matrix which is unknown to the OT. Under independent Rayleigh fading we assume $\pmb{U}_l^H\pmb{U}_l=I$ and $\Pi_{\frac{1}{\pmb{\hat G}_l}}\pmb{U}_l=\pmb{U}_l$ same as in \cite{bib:jbb}. In addition, without loss of generality, it is assumed that \pmb{E}[$\pmb{U}_j^H\pmb{U}_l]=0$.
 
 The additive white gaussian noise (AWGN) is assumed to be $CN(0,1)$ and is independent of the channel, its estimate and the transmitted symbols.
 
-\section{Performance for the B-terminals}
-	In this section performance of the JBB for the B-terminals in multicell scenario is evaluated. The section aims at finding the achievable rate for the B-terminals. Since channel estimate, its variance and the error variance of the estimate plays an important role in finding the rate, we start with estimation of channel for a particular terminal in a specific cell. The variance in estimation and error are then calculated. From the expression of the received signal at any particular B-terminal in a specific cell, the desired signal power and the variance of noise and interference terms are calculated to get the expression for the information rate.
+\section{Performance for the B-Terminals}
+	In this section performance of the JBB for the BT in multicell scenario is evaluated. The section aims at finding the achievable rate for the BT. Since channel estimate, its variance and the error variance of the estimate plays an important role in finding the rate, we start with estimation of channel for a particular BT in a specific cell. The variance in estimation and error are then calculated. From the expression of the received signal at any particular BT in a specific cell, the desired signal power and the variance of noise and interference terms are calculated to get the expression for the information rate.
 
 \subsection{Estimation of channel for B-terminal} \label{sec:btchesti}
-	The channel is estimated during the pilot phase in uplink. The B-terminals send the known pilots to the BS and BS estimates the channel. Here we are assuming that same set of orthogonal pilots are used in all the cells and all the $K$ terminals in each of the $L$ cells send their pilots simultaneously to their respective BS which results in pilot contamination.
+	The channel is estimated during the pilot phase in uplink. The BT send the known pilots to the BS and BS estimates the channel. Here we are assuming that same set of orthogonal pilots are used in all the cells and all the $K$ terminals in each of the $L$ cells send their pilots simultaneously to their respective BS which results in pilot contamination.
 
 The signal received by the $l^{th}$ BS due to the simultaneous pilot transmission from  all the $K$ terminals of $L$ cells is given by
 \begin{eqnarray}\label{eq:rcvy}
@@ -81,46 +81,47 @@ The signal received by the $l^{th}$ BS due to the simultaneous pilot transmissio
                        \pmb{g}_{jk'l} \ \pmb{\phi}^H_{lk'}
     			    +  \pmb{n}_{l}
 \end{eqnarray}
-where $\pmb{g}_{j'k'l} \in {\mathbb C}^{M \times 1}$ is the fast fading components of the channel vector between the $k'^{th}$ UT in the $j'^{th}$ cell and the $l^{th}$ BS. The elements of $g_{j'k'l}$ has $CN(0,\beta_{j'k'l})$ i.i.d distribution, where $\beta_{j'k'l}$ represents the respective path loss. The pilot sequence transmitted by the $k^{th}$ UT in the $l^{th}$ cell is denoted by $\pmb{\phi}_{lk} \in {\mathbb C}^{\tau_p \times 1}$ where $\tau_p$ denotes the length of the pilot sequence. The sequences are orthonormal, i.e., $\pmb{\phi}_{j'q}^H \pmb{\phi}_{jq} = 0$ for  $q \ne q'$ and is $1$ for $q=q'$.
+where $\pmb{g}_{jk'l} \in {\mathbb C}^{M \times 1}$ is the fast fading components of the channel vector between the $k'^{th}$ UT in the $j^{th}$ cell and the $l^{th}$ BS. The elements of $g_{jk'l}$ has $CN(0,\beta_{jk'l})$ i.i.d distribution, where $\beta_{jk'l}$ represents the respective path loss. The pilot sequence transmitted by the $k^{th}$ UT in the $l^{th}$ cell is denoted by $\pmb{\phi}_{lk} \in {\mathbb C}^{\tau_p \times 1}$ where $\tau_p$ denotes the length of the pilot sequence. The sequences are orthonormal, i.e., $\pmb{\phi}_{j'q}^H \pmb{\phi}_{jq} = 0$ for  $q \ne q'$ and is $1$ for $q=q'$.
 
 For estimating the channel of the $k^{th}$ terminal of the $l^{th}$ cell, at the BS of the $l^{th}$ cell the received vector $\pmb{y}_{l}$ is multiplied by the known pilot $\pmb{\phi}_{lk}$. Since the pilots are orthogonal, only those terms remain which have the pilots sent by the $k^{th}$ terminal of each of cell. Thus (\ref{eq:rcvy}) can be written as
 \begin{eqnarray}
 	\pmb{y}_{l}^{p} \triangleq \pmb{y}_{l} \pmb{\phi}_{lk}
-                          &=&     \sqrt{\rho_p\tau_p\beta_{lkl}}\pmb{g}_{lkl}
-                           +      \sum_{\substack{j'=1 \\ j' \neq l}}^{L} \sqrt{\rho_p\tau_p\beta_{jkl}}\pmb{g}_{jkl}
+                          &=&     \sqrt{\rho_p\tau_p}\pmb{g}_{lkl}
+                           +      \sum_{\substack{j=1 \\ j \neq l}}^{L} \sqrt{\rho_p\tau_p}\pmb{g}_{jkl}
              			   +      \pmb{n}_{l}\pmb{\phi}_{lk}
 \end{eqnarray}
 Let the MMSE estimate of the channel $\pmb{g}_{lkl}$ be $\pmb{\hat g}_{lkl}$. Thus $\pmb{\hat g}_{lkl} = \alpha_{lk}\pmb{y}_{l}^{p}$. The value of $\alpha_{lk}$ shall be chosen such that        
-\begin{eqnarray}
+\begin{eqnarray}\label{eqn:alphammse}
 	\pmb{E}[(\pmb{g}_{lkl}-\alpha_{lk}\pmb{y}_{l}^{p})^H \pmb{y}_{l}^{p}] = 0 \\
 	\implies \alpha_{lk} = \frac{\pmb{E}[\pmb{g}^{H}_{lkl} \pmb{y}_{l}^{p}]}{\pmb{E}[|\pmb{y}_{l}^{p}|^2]}
 \end{eqnarray}
-Substituting the values for $\pmb{g}_{lkl}$ and $\pmb{y}_{l}^{p}$ in the above equation and taking the required expectations
+Substituting the values for $\pmb{g}_{lkl}$ and $\pmb{y}_{l}^{p}$ in (\ref{eqn:alphammse}) and taking the required expectations
 \begin{eqnarray}\label{eq:alphapll}
-	\alpha_{lk}=\frac{\sqrt{\rho_p \tau_p} \beta_{lkl}}{1+\rho_p\sum\limits_{j=1}^{L}\beta_{jkl}}
+	\alpha_{lk}=\frac{\sqrt{\rho_p \tau_p} \beta_{lkl}}{1+\rho_p\tau_p\sum\limits_{j=1}^{L}\beta_{jkl}}
 \end{eqnarray}
 and the estimate of the channel from the $k^{th}$ terminal of the $l^{th}$ cell to the $l^{th}$ BS is given as
 \begin{eqnarray}\label{eq:estimatehpll}
-	\pmb{\hat g}_{lkl} = \frac{\sqrt{\rho_p\tau_p}\beta_{lkl}}{1+\rho_p\sum\limits_{j=1}^{L}\beta_{jkl}} \pmb{y}_{l}^{p}
+	\pmb{\hat g}_{lkl} = \frac{\sqrt{\rho_p\tau_p}\beta_{lkl}}{1+\rho_p\tau_p\sum\limits_{j=1}^{L}\beta_{jkl}} \pmb{y}_{l}^{p}
 \end{eqnarray}
 The estimation error is given by ${\pmb{\widetilde{g}}_{lkl}}$ and is assumed to be uncorrelated with the $\pmb{\hat g}_{lkl}$. Also $\pmb{\hat g}_{lkl}=\pmb{g}_{lkl}+\pmb{\widetilde{g}}_{lkl}$.
 The covariance matrix of the estimated channel vector and the estimation error vector is given by
 \begin{eqnarray}
 	\gamma_{lkl} \triangleq \pmb{E}[\pmb{\hat g}_{lkl}\pmb{\hat g}^H_{lkl}]
-                    =       \frac{\rho_p\tau_p\beta^2_{lkl}I}{1+\tau_p\rho_p\sum\limits_{j=1}^{L}\beta_{jkl}} 
+                    =       \frac{\rho_p\tau_p\beta^2_{lkl}}{1+\tau_p\rho_p\sum\limits_{j=1}^{L}\beta_{jkl}}\pmb{I}
 \end{eqnarray}
 \begin{eqnarray}
-    \pmb{E}[\pmb{\widetilde{g}}_{lkl} \pmb{\widetilde{g}}^H_{lkl}] &=& \beta_{lkl}- \frac{\rho_p\tau_p\beta^2_{lkl}I}{1+\tau_p\rho_p\sum\limits_{j=1}^{L}\beta_{jkl}} \nonumber\\
+    \pmb{E}[\pmb{\widetilde{g}}_{lkl} \pmb{\widetilde{g}}^H_{lkl}] &=& \beta_{lkl}- \frac{\rho_p\tau_p\beta^2_{lkl}}{1+\tau_p\rho_p\sum\limits_{j=1}^{L}\beta_{jkl}}\pmb{I} \nonumber\\
           									    &=& (\beta_{lkl} - \gamma_{lkl})I
 \end{eqnarray}
 
-\subsection{Achievable Rate for B-terminals}
+\subsection{Achievable Rate for BT}
 
 The data received at the $k^{th}$ terminal of the $l^{th}$ cell is given by
 \begin{eqnarray}\label{eq:ot}
  	y_{lk}(t) = \sqrt{\rho_b}\sum_{j=1}^{L} \pmb{g}_{lkj}^{T} \left(\sum_{k'=1}^{K}\pmb{v}_{jk'}s_{jk'}(t)\right)
- 		      + \sqrt{\rho_o}\sum_{j=1}^{L}\sqrt{\beta_{lkj}}\pmb{g}^T_{lkj} \Pi^{\perp}_{{\widehat{G}_j}} \pmb{U}_j\pmb{q}_{j}+ w_{lk}(t)
-\end{eqnarray}  
+ 		      + \sqrt{\rho_o}\sum_{j=1}^{L}\pmb{g}^T_{lkj} \Pi^{\perp}_{{\pmb{\widehat{G}}_j}} \pmb{U}_j\pmb{q}_{j}+ w_{lk}(t)
+\end{eqnarray} 
+where $s_{jk'}(t)$ are the information symbols, with zero mean and unit variance, aimed at the $k'^{th}$ BT from the BS of $j^{th}$ cell.
 The values of beamforming vectors $\pmb{v}_{jk'}$ depends on the channel estimate $\pmb{g}_{jkj}$. Considering Maximum Ratio Transmission (MR), the value of the beamforming vectors for the $k^{th}$ UT in the $j^{th}$ cell is given by
 \begin{eqnarray}\label{eq:bfv}
 	\pmb{v}_{jk} = \sqrt{\frac{\eta_{jk}}{M\gamma_{jkj}}}\pmb{\hat g}^*_{jkj}
@@ -129,22 +130,17 @@ where power control parameters, $\eta_{jk}$, satisfy
 \begin{eqnarray}\label{eqn:etaconstraint}
 \sum\limits_{k=1}^{K}\eta_{jk}=1
 \end{eqnarray}
-The received signal at the $k^{th}$ B-terminal is given by
-\begin{eqnarray}\label{eqn:rxbt}
-    y_{lk}(t) = \sqrt{\rho_b}\sum\limits_{j=1}^{L} \ \pmb{g}_{lkl}^T \left( \sum\limits_{k'=1}^{k'=K}\pmb{v}_{jk'} \ s_{jk'}(t)\right) + \sqrt{\rho_o}\sum_{j=1}^{L}\pmb{g}_{lkj} \Pi^{\perp}_{{\widehat{G}_j}} \pmb{U}_j \pmb{q}_{j}
-    + w_{lk}(t) 
-\end{eqnarray}
-Substituting (\ref{eq:bfv}) in (\ref{eq:ot}) and writing the channel responses interms of its estimate and error, the term for the $k^{th}$ terminal in the $l^{th}$ cell can be rewritten as
+Substituting (\ref{eq:bfv}) in (\ref{eq:ot}) and writing the channel responses in-terms of its estimate and error in estimate, the term for the $k^{th}$ terminal in the $l^{th}$ cell can be rewritten as
 \begin{eqnarray} \label{eqn:completeot}
 	y_{l}(t)  &=& \sqrt{\frac{\rho_b\eta_{lk}}{M\gamma_{lkl}}} \ \pmb{E}[|| \ \pmb{\hat g}_{lkl}||^2]s_{lk}(t)
 	           +  \sqrt{\frac{\rho_b\eta_{lk}}{M\gamma_{lkl}}}\left(||\pmb{\hat g}_{lkl}||^2 - \pmb{E}[||\pmb{\hat g}_{lkl}||^2]\right)s_{lk}(t) \nonumber \\    
                &+& \sqrt{\rho_b} \ \pmb{\hat g}_{lkl}^T \left(\sum_{\substack{k'=1 \\ k' \neq k}}^{K} \sqrt{\frac{\eta_{lk'}}{M\gamma_{lk'l}}} \ \pmb{\hat g}^*_{lk'l} \ s_{lk'} (t)\right) 
-               + \sqrt{\rho_b} \sum_{\substack{j=1 \\ j \neq l}}^{L} \pmb{\hat g}_{lkj}^T \left(\sum_{k'=1}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{jk'j}}} \ \pmb{\hat g}^*_{jk'j} \ s_{kj} (t)\right)\nonumber \\
-               &-& \sqrt{\rho_b} \sum_{j=1}^{L} \pmb{\widetilde{g}}_{lkj}^T \left(\sum_{k'=1}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{jk'j}}} \ \pmb{\hat g}^*_{jk'j} \ s_{kj} (t)\right) 
+               + \sqrt{\rho_b} \sum_{\substack{j=1 \\ j \neq l}}^{L} \pmb{\hat g}_{lkj}^T \left(\sum_{k'=1}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{jk'j}}} \ \pmb{\hat g}^*_{jk'j} \ s_{jk'} (t)\right)\nonumber \\
+               &-& \sqrt{\rho_b} \sum_{j=1}^{L} \pmb{\widetilde{g}}_{lkj}^T \left(\sum_{k'=1}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{jk'j}}} \ \pmb{\hat g}^*_{jk'j} \ s_{jk'} (t)\right) 
                + \sqrt{\rho_o}\sum_{j=1}^{L}\pmb{g}^T_{lkj} \Pi^{\perp}_{{\widehat{G}_j}} \pmb{U}_j \pmb{q}_{j}
                + w_{lk}(t)      
 \end{eqnarray}
-The first term in (\ref{eqn:completeot}) is the required signal and all other terms constitute to interference and noise. The second term represents uncertainty in channel gain, third term represents intra-cell interference, fourth term is the inter-cell interference, the fifth term stems from channel estimation errors, sixth term is the transmission to the O-terminals and the last term is the thermal noise. The signal, interference and the noise are mutually uncorrelated.
+The first term in (\ref{eqn:completeot}) is the required signal. The second term represents uncertainty in channel gain, third term represents intra-cell interference, fourth term is the inter-cell interference, the fifth term stems from channel estimation errors, sixth term is the transmission to the OT and the last term is the thermal noise. The signal, interference and the noise are mutually uncorrelated.
 
 Our next aim is to find the information rate by finding the signal power and variances of the noise term. 
 
@@ -170,16 +166,16 @@ The intra-cell interference variance is
 The variance of inter-cell interference is given as
 \begin{eqnarray}\label{eq:noiseF3}
 	V_3 &\triangleq& \rho_b \pmb{E}\left[\Bigm|\sum_{\substack{j=1 \\ j \neq l}}^{L} \pmb{\hat g}_{lkj}^T \left(\sum_{k'=1}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{jk'j}}} \ \pmb{\hat g}^*_{jk'j} \ s_{jk'} (t)\right)\Bigm|^2\right] \nonumber \\ 
-    &=& \rho_b\sum_{\substack{j=1 \\ j \neq l}}^{L} \sum_{k'=1}^{K} \frac{\eta_{jk'}}{M\gamma_{jk'j}} \pmb{Tr}\left(\pmb{E}\left[\Bigm| \pmb{\hat g}_{lkj}^T \ \pmb{\hat g}_{lkj}^* \ \pmb{\hat g}_{jk'j}^T \ \pmb{\hat g}_{jk'j}^{*} \right]\right) \nonumber \\
+    &=& \rho_b\sum_{\substack{j=1 \\ j \neq l}}^{L} \sum_{k'=1}^{K} \frac{\eta_{jk'}}{M\gamma_{jk'j}} \pmb{Tr}\left(\pmb{E}\left[\pmb{\hat g}_{lkj}^T \ \pmb{\hat g}_{lkj}^* \ \pmb{\hat g}_{jk'j}^T \ \pmb{\hat g}_{jk'j}^{*} \right]\right) \nonumber \\
     &=& \rho_b\sum_{\substack{j=1 \\ j \neq l}}^{L}\gamma_{lkj}\left(\sum_{k'=1}^{K}\eta_{jk'}\right)
 \end{eqnarray}
 The variance of channel estimation error is
 \begin{eqnarray}\label{eqn:noiseF4}
-	V_4 &\triangleq& \rho_b \pmb{E} \left[ \Bigm |\sum_{j=1}^{L} \pmb{\widetilde{g}}_{lkj}^T \left(\sum_{k'=1}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{jk'j}}} \ \pmb{\hat g}^*_{jk'j} \ s_{kj} (t)\right)\Bigm|^2 \right] \nonumber \\
-     &=& \rho_b\sum_{j=1}^{L} \sum_{k'=1}^{K} \frac{\eta_{jk'}}{M\gamma_{jk'j}} \pmb{Tr}\left(\pmb{E}\left[\Bigm| \pmb{\widetilde{g}}^T_{lkj} \ \pmb{\widetilde{g}}_{lkj}^* \ \pmb{\hat g}_{jk'j}^T \ \pmb{\hat g}_{jk'j}^{*} \right]\right) \nonumber \\
+	V_4 &\triangleq& \rho_b \pmb{E} \left[ \Bigm |\sum_{j=1}^{L} \pmb{\widetilde{g}}_{lkj}^T \left(\sum_{k'=1}^{K} \sqrt{\frac{\eta_{jk'}}{M\gamma_{jk'j}}} \ \pmb{\hat g}^*_{jk'j} \ s_{jk'} (t)\right)\Bigm|^2 \right] \nonumber \\
+     &=& \rho_b\sum_{j=1}^{L} \sum_{k'=1}^{K} \frac{\eta_{jk'}}{M\gamma_{jk'j}} \pmb{Tr}\left(\pmb{E}\left[\pmb{\widetilde{g}}^T_{lkj} \ \pmb{\widetilde{g}}_{lkj}^* \ \pmb{\hat g}_{jk'j}^T \ \pmb{\hat g}_{jk'j}^{*} \right]\right) \nonumber \\
         &=& \rho_b\sum\limits_{j'=1}^{L}(\beta_{lk}-\gamma_{lk})\left(\sum\limits_{k'=1}^{K}\eta_{lk'}\right)
 \end{eqnarray}
-The variance of the term transmitted for O-terminals is given by
+The variance of the term transmitted for OT is given by
 \begin{eqnarray}\label{eqn:noiseF4_1}
 	V_5 &\triangleq& \rho_o\pmb{E}\left[\Bigm|\sum_{j=1}^{L}\pmb{g}_{lkj}^T\Pi^{\perp}_{{\widehat{\pmb{G}}_j}}\pmb{U}_j \pmb{q}_{j}\Bigm|^2\right] \nonumber \\
             &=&       \frac{\rho_o}{M'}\sum_{j=1}^{L}\sum_{i=1}^{L} \pmb{Tr}\left(\pmb{E}\left[\pmb{U}_j^H \Pi^{\perp}_{\pmb{\widehat{G}}_j} \pmb{g}_{lkj}^* \pmb{g}_{lki}^{T}\Pi^{\perp}_{\pmb{\hat G}_i} \pmb{U}_i \right]\right)
@@ -198,11 +194,11 @@ Similarly when $i=j=l$, conditioned on $\pmb{\hat G}_l$, $\pmb{U}_l$ is fixed bu
 \begin{eqnarray}\label{eqn:conditionghat}
 E[\pmb{g}_{lkl}^*\pmb{g}_{lkl}^T|\pmb{\hat G}_l] = \pmb{\hat g}_{lkl}^*\pmb{\hat g}_{lkl}^T + (\beta_{lkl}-\gamma_{lkl})\pmb{I}
 \end{eqnarray}
-Thus substituting (\ref{eqn:conditionghat}) and using the facts that $\Pi^{\perp}_{\pmb{\hat G}_j}\pmb{\hat g}_{lkj} = 0$ and $\pmb{U}_j^H\pmb{U}_j=\pmb{I}$, (\ref{eqn:v6m}) can be evaluated to be
+Thus substituting (\ref{eqn:conditionghat}) and using the facts that $\Pi^{\perp}_{\pmb{\hat G}_l}\pmb{\hat g}_{lkl} = 0$ and $\pmb{U}_l^H\pmb{U}_l=\pmb{I}$, (\ref{eqn:v6m}) can be evaluated to be
 \begin{eqnarray}\label{eqn:v6l}
 V_{6,i=j=l}= \rho_o(\beta_{lkl} -\gamma_{lkl})
 \end{eqnarray}
-For the scenario where $i\neq j$ the channel estimates of different cells are uncorrelated and $\pmb{E}\left[\pmb{U}_j^H\Pi^{\perp}_{\pmb{\widehat{G}}_j}\Pi^{\perp}_{\pmb{\widehat{G}}_i} \pmb{U}_i\right]$ = $\pmb{E}[\pmb{U}_j^H\pmb{U}_i] =0$. Thus the variance of the transmission to the O-terminals is
+For the scenario where $i\neq j$ the channel estimates of different cells are uncorrelated and $\pmb{E}\left[\pmb{U}_j^H\Pi^{\perp}_{\pmb{\widehat{G}}_j}\Pi^{\perp}_{\pmb{\widehat{G}}_i} \pmb{U}_i\right]$ = $\pmb{E}[\pmb{U}_j^H\pmb{U}_i] =0$. Thus the variance of the transmission to the OT is
 \begin{eqnarray}\label{eqn:v6}
    V_6 &=& V_{6,i=j=l} + V_{6,i=j\neq l} \nonumber \\ &=&\rho_o\left(\sum\limits_{j=1}^{L}\beta_{lkj}-\gamma_{lkl}\right)
 \end{eqnarray}
@@ -240,10 +236,10 @@ R_{lk}^{MR} &=& log_2\left[1+\dfrac{M\rho_b\eta_{lk}\gamma_{lkl}}{\rho_b\sum\lim
 \end{eqnarray}
 
 
-\section{Power Allocation Startergy for B-terminals}
-The max-min fairness power allocation is adopted as described in Chapter 5 and 6.2.5 in \cite{bib:MassiveMimoBook}. As per this policy the value of $\eta_{lk}$ shall be chosen so that the rates of all the B-terminals in a cell are equal. 
+\section{Power Allocation Startergy for BT}
+The max-min fairness power allocation is adopted as described in Chapter 5 and 6.2.5 in \cite{bib:MassiveMimoBook}. As per this policy the value of $\eta_{lk}$ shall be chosen so that the rates of all the BT in a cell are equal. 
 
-Let $\bar{R}^{MR}$ be rate to be achieved by all B-terminals. Thus $R_{lk}^{MR} = \bar{R}^{MR}$. Rewriting (\ref{eqn:finalratebt})
+Let $\bar{R}^{MR}$ be the rate to be achieved by all BT. Thus $R_{lk}^{MR} = \bar{R}^{MR}$. Rewriting (\ref{eqn:finalratebt}) for $\eta_{lk}$,
 \begin{eqnarray}
     \eta_{lk} &=& (2^{\bar{R}^{MR}} - 1)\left(\dfrac{\rho_b\sum\limits_{j=1}^{L}\beta_{lkj}+\rho_o\left(\sum\limits_{j=1}^{L}\beta_{lkj} -\gamma_{lkl}\right)+1}{M\rho_b\eta_{lk}\gamma_{lkl}}\right)
 \end{eqnarray}
@@ -297,11 +293,11 @@ and the value of rate is given by
 %						   +L}{\beta_{lk''}^{l}}}
 %\end{eqnarray}
 
-\section{Performance of the O-terminals}
-	The O-terminals receive the signal which is a combination of data to the B-terminals, the data for the O-terminal and the noise. We assume that the O-terminal experiences independent Rayleigh fading such that the channel response $\pmb{h}_{l}$ is $\sim CN(0,\pmb{C_h}$) where $\pmb{C}_h = \beta_{ol}I$. The channel from the base station to the terminals shall be estimated first. Using this estimated value, with JBB, the received signal at the O-terminal shall be evaluated to find the signal power, noise/interference variances and the achievable rate.
+\section{Performance for the O-Terminals}
+	The OT receive the signal which is a combination of data to the BT, the data for the O-terminal and the noise. We assume that the O-terminal experiences independent Rayleigh fading such that the channel response $\pmb{h}_{l}$ is $\sim CN(0,\pmb{C_h}$) where $\pmb{C}_h = \beta_{ol}I$. The channel from the base station to the terminals shall be estimated first. Using this estimated value, with JBB, the received signal at the O-terminal shall be evaluated to find the signal power, noise/interference variances and the achievable rate.
 
 \subsection{Pilot Phase}
-	In the pilot phase of the O-terminals, the BS sends the pilots to the O-terminals. Here we assume that in the pilot phase there is no transmission to the B-terminals.
+	In the pilot phase of the OT, the BS sends the pilots to the OT. Here we assume that in the pilot phase there is no transmission to the BT.
 The signal received by the O-terminal in the $l^{th}$ cell is given by
 \begin{eqnarray}
 	y_{ol}(t)=\sqrt{\rho_o} \sum_{j=1}^{L} \pmb{h}^H_{ej} \ \pmb{q}^p_{j}(t) + w_{ol}(t) 
@@ -424,18 +420,18 @@ Using the value of the variance of the estimate, bound for the rate can be formu
 % 	$\pmb{\widetilde{g}_{jk}^{l}}$ & Error in channel estimate of $\pmb{g_{jk}^{l}}$ \\ \\
 %	$\pmb{\eta_{jk}}$              & Power control coefficient of the $k^{th}$ terminal in $j^{th}$ cell \\ \\
 %        $\pmb{\beta_{jk}^{l}}$         & Fading between $k^{th}$ terminal in $j^{th}$ cell and the base station in $l^{th}$ cell. \\ \\
-%        $\pmb{\beta_{oj}}$             & Fading between the O-terminals of the $l^{th}$ cell and base station in $j^{th}$ cell. \\ \\
+%        $\pmb{\beta_{oj}}$             & Fading between the OT of the $l^{th}$ cell and base station in $j^{th}$ cell. \\ \\
 %        $\pmb{\gamma_{jk}^{l}}$        & Mean square channel estimate between $k^{th}$ terminal in $j^{th}$ cell and the base station in $l^{th}$ cell. \\ \\
 %        $\pmb{\phi_{jk}^{l}}$          & Pilot symbols send from $k^{th}$ B-terminal in $j^{th}$ cell to the base station in $l^{th}$ cell. \\ \\
 %        $\pmb{v_{jk}^{j}}$             & Beamforming vector from base station in $j^{th}$ cell to the $k^{th}$ B-terminal in $j^{th}$ cell \\ \\
 %        $\pmb{s_{jk}^{j}}$             & Information symbols from base station in $j^{th}$ cell to the $k^{th}$ B-terminal in $j^{th}$ cell \\ \\
 %	$\pmb{q_{oj}}$                 & Information symbols send to the O-terminal from the base station of $j^{th}$ cell.\\ \\
 %	$\pmb{q_{pj}}$                 & Pilot symbols send to the O-terminal from the base station of $j^{th}$ cell.\\ \\
-%	$W_{oj}$                          & Noise for the O-terminals in $l^{th}$ cell when transmitting fron $j^{th}$ terminal. \\ \\
-%        $\tau_{p}$                        & Pilot sending duration for B-terminals.\\ \\
-%        $\tau_{p}^{o}$                    & Pilot sending duration for O-terminals.\\ \\
+%	$W_{oj}$                          & Noise for the OT in $l^{th}$ cell when transmitting fron $j^{th}$ terminal. \\ \\
+%        $\tau_{p}$                        & Pilot sending duration for BT.\\ \\
+%        $\tau_{p}^{o}$                    & Pilot sending duration for OT.\\ \\
 %        $N_{LK}^{l}$                      & Noise from all the $K$ terminals from all the $L$ cells.\\ \\
-%	$\pmb{\hat G_j}$               & Estimate of channels of B-terminals in $j^{th}$ cell
+%	$\pmb{\hat G_j}$               & Estimate of channels of BT in $j^{th}$ cell
 %\end{tabular}
 %\end{flushleft}
 %\end{appendices}

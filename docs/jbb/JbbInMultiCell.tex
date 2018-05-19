@@ -228,26 +228,64 @@ R_{lk}^{MR} &=& log_2\left[1+\dfrac{M\rho_b\eta_{lk}\gamma_{lkl}}{ \rho_b\sum\li
 
 
 \section{Power Allocation Startergy for BT}
-The max-min fairness power allocation is adopted as described in Chapter 5 and 6.2.5 in \cite{bib:MassiveMimoBook}. As per this policy the value of $\eta_{lk}$ shall be chosen so that the rates of all the BT in a cell are equal. 
+The max-min fairness power allocation is adopted as described in Chapter 5 and 6.2.5 in \cite{bib:MassiveMimoBook}. As per this policy the value of $\eta_{lk}$ shall be chosen so that the rates of all the BTs in a cell are equal. A heuristic algorithm, that corrects the power control coefficients to the first order of approximation for the effects of coherent interference is used.
 
-Let $\bar{R}^{MR}$ be the rate to be achieved by all BT. Thus $R_{lk}^{MR} = \bar{R}^{MR}$. Rewriting (\ref{eqn:finalratebt}) for $\eta_{lk}$,
+    The initial power control coefficients, $\hat \eta_{lk}$, is obtained under the assumption that the coherent interference term is negligible. Using this $\hat \eta_{lk}$, the exact value of the Signal to Interference Noise ratio(SINR), $\pmb{\widehat{SINR}}_{lk}^{MR}$ is then obtained. Then, within the limits of approximation, the quantity
 \begin{eqnarray}
-    \eta_{lk} &=& (2^{\bar{R}^{MR}} - 1)\left(\dfrac{\rho_b\sum\limits_{j=1}^{L}\beta_{lkj}+\rho_o\left(\sum\limits_{j=1}^{L}\beta_{lkj} -\gamma_{lkl}\right)+1}{M\rho_b\eta_{lk}\gamma_{lkl}}\right)
+\hat f_{lk} = \frac{\pmb{\widehat{SINR}}_{lk}^{MR}}{\hat \eta_{lk}} 
 \end{eqnarray}
-Using the constraint (\ref{eqn:etaconstraint}) the value of $\eta_{lk}$ to achieve $\bar{R}^{MR}$ is
+may be interpreted as the rate that the $k$-th terminal in the $l$-th cell would obtain for $\eta_{lk}=1$. Thus for any $\eta_{lk}$ the resulting SINR is
+\begin{eqnarray}\label{eqn:sinrlk}
+\pmb{SINR}_{lk} &\approx & \left(\frac{\pmb{\widehat{SINR}}_{lk}^{MR}}{\hat \eta_{lk}}\right)\eta_{lk} \nonumber \\
+                  &=& \hat f_{lk}\eta_{lk}   
+\end{eqnarray}
+Let the SINR in $l$-th cell be $\overline{\pmb{SINR}}_{lk}$. By max-min fairness policy $\pmb{SINR}_{lk} = \overline{\pmb{SINR}}_{lk} \ \forall \ k=1 \cdots K$. Thus from (\ref{eqn:sinrlk})
+\begin{eqnarray}\label{eqn:etalkgen}
+    \eta_{lk} &=& \frac{\overline{\pmb{SINR}}_{lk}}{\hat f_{lk}}
+\end{eqnarray}
+Using the constraint (\ref{eqn:etaconstraint}), equation (\ref{eqn:etalkgen}) can be modified as
+\begin{eqnarray}\label{eqn:sinrbar}
+\overline{\pmb{SINR}}_{lk} = \cfrac{1}{\sum\limits_{k=1}^K\cfrac{1}{\hat f_{lk}}}
+\end{eqnarray}
+ Substituting (\ref{eqn:sinrbar}) back in (\ref{eqn:etalkgen}) the value of $\eta_{lk}$ is given by
+\begin{eqnarray}\label{eqn:etalkgen}
+\eta_{lk} &=& \cfrac{\cfrac{1}{\hat f_{lk}}}{\sum\limits_{k=1}^K\cfrac{1}{\hat f_{lk}}}
+\end{eqnarray}
+From (\ref{eqn:rateot}), the value of $\pmb{SINR}_{lk}$ is
+\begin{eqnarray}\label{eqn:sinrlkbt}
+\pmb{SINR}_{lk} &=& \dfrac{M\rho_b\eta_{lk}\gamma_{lkl}}{ \rho_b\sum\limits_{j=1}^{L}\beta_{lkj}+M\rho_b\sum\limits_{\substack{j=1 \\ j \neq l}}^{L}\beta_{lkj}\eta_{jk} +\rho_o\left(\sum\limits_{j=1}^{L}\beta_{lkj} -\gamma_{lkl}\right)+1}
+\end{eqnarray}
+Considering the coherent interference term negligible and applying constraint (\ref{eqn:etaconstraint}) the value of $\hat \eta_{lk}$ is
+\begin{eqnarray}\label{eqn:etahatbt}
+\hat \eta_{lk} = \dfrac{\rho_b\sum\limits_{j=1}^{L}\beta_{lkj}+\rho_o\left(\sum\limits_{j=1}^{L}\beta_{lkj} -\gamma_{lkl}\right)+1}
+                       {\gamma_{lkl}\mathlarger{\mathlarger{\sum}}\limits_{k'=1}^{K}\cfrac{\rho_b\sum\limits_{j=1}^{L}\beta_{lk'j}+\rho_o\left(\sum\limits_{j=1}^{L}\beta_{lk'j} -\gamma_{lk'l}\right)+1}{\gamma_{lk'l}}}
+\end{eqnarray}
+The value of $\pmb{\overline{SINR}}_{lk}$ is given by
+\begin{eqnarray}\label{eqn:sinrbarbt}
+\pmb{\overline{SINR}}_{lk} &=& \frac{M\rho_b}{\mathlarger{\mathlarger{\sum}}\limits_{k'=1}^{K}\cfrac{\rho_b\sum\limits_{j=1}^{L}\beta_{lk'j}+\rho_o\left(\sum\limits_{j=1}^{L}\beta_{lk'j} -\gamma_{lk'l}\right)+M\rho_b\sum\limits_{\substack{j=1 \\ j \neq l}}^{L}\beta_{lk'j}\eta_{jk'}+1}{\gamma_{lk'l}}}
+\end{eqnarray}
+Thus the value of $\eta_{lk}$ is given by
 \begin{eqnarray}
-    \eta_{lk} &=& \frac{\rho_b\sum\limits_{j=1}^{L}\beta_{lkj}+\rho_o\left(\sum\limits_{j=1}^{L}\beta_{lkj} -\gamma_{lkl}\right)+1}{\gamma_{lkl}\mathlarger{\mathlarger{\sum}}\limits_{k'=1}^{K}\left(\dfrac{\rho_b\sum\limits_{j=1}^{L}\beta_{lk'j}+\rho_o\left(\sum\limits_{j=1}^{L}\beta_{lk'j} -\gamma_{lk'l}\right)+1}{\gamma_{lk'l}}\right)}
+\eta_{lk} &=& \frac{\rho_b\sum\limits_{j=1}^{L}\beta_{lkj}+\rho_o\left(\sum\limits_{j=1}^{L}\beta_{lkj} -\gamma_{lkl}\right)+M\rho_b\sum\limits_{\substack{j=1 \\ j \neq l}}^{L}\beta_{lkj}\eta_{jk}+1}{\gamma_{lkl}\mathlarger{\mathlarger{\sum}}\limits_{k'=1}^{K}\cfrac{\rho_b\sum\limits_{j=1}^{L}\beta_{lk'j}+\rho_o\left(\sum\limits_{j=1}^{L}\beta_{lk'j} -\gamma_{lk'l}\right)+M\rho_b\sum\limits_{\substack{j=1 \\ j \neq l}}^{L}\beta_{lk'j}\eta_{jk'}+1}{\gamma_{lk'l}}}
 \end{eqnarray}
-and the value of rate is given by
-\begin{eqnarray}
-    \bar{R}^{MR} =log_2\left(1+\frac{M\rho_b}{\mathlarger{\mathlarger{\sum}}\limits_{k=1}^{K}\left(\frac{\rho_b\sum\limits_{j=1}^{L}\beta_{lkj}+\rho_o\left(\sum\limits_{j=1}^{L}(\beta_{lkj} -\gamma_{lkj}\right)+1}{\gamma_{lkl}}\right)} \right)
-\end{eqnarray}
-  
-%	The stratergy can be explained as follows. Considering the denomintor in (\ref{eqn:rateot}) except the second term all other terms depends directly on the total number of terminals in any particular cell. Thus as long as the number of terminals in a cell is constant these terms an be considered as constant. The second term is the noise from the contaminating cells and depends on the cell under consideration. This is the coherent interference. As the first step in power allocation, we assume that the contamination from other cells is zero, which implies that the denominator is a constant, and design a value for $\eta_{lp}=\hat \eta_{lp}$. Using this value of $\hat \eta_{lp}$ the actual value of SINR (with the coherent interference term) ($\pmb{\widetilde{SINR}}_{lp}^{l}$) is calculated. Dividing this SINR by $\hat \eta_{lp}$ is equivalent to finding the SINR for the terminal with maximum $\eta_{lp}$, i.e 1. Thus an optimum value for $\eta_{lk}$ shall be found by making use of the criteria that, in a particualr cell 
-%\begin{eqnarray}\label{eqn:etacriteria}
-%	\sum\limits_{k'=1}^{K}\eta_{lk'}=1
+%The max-min fairness power allocation is adopted as described in Chapter 5 and 6.2.5 in \cite{bib:MassiveMimoBook}. As per this policy the value of $\eta_{lk}$ shall be chosen so that the rates of all the BT in a cell are equal. 
+%
+%Let $\bar{R}^{MR}$ be the rate to be achieved by all BT. Thus $R_{lk}^{MR} = \bar{R}^{MR}$. Rewriting (\ref{eqn:finalratebt}) for $\eta_{lk}$,
+%\begin{eqnarray}
+%    \eta_{lk} &=& (2^{\bar{R}^{MR}} - 1)\left(\dfrac{\rho_b\sum\limits_{j=1}^{L}\beta_{lkj}+\rho_o\left(\sum\limits_{j=1}^{L}\beta_{lkj} -\gamma_{lkl}\right)+1}{M\rho_b\eta_{lk}\gamma_{lkl}}\right)
 %\end{eqnarray}
-%	For simplicity let us represent the neumerator in (\ref{eqn:rateot}) as $a_{lp}^{l}\eta_{lp} $, first term in denominator as $b_{lk'}^{l}$, second term as $c_{jk'}^{l}$ and third term as $d_{o}^{j}$. Thus (\ref{eqn:rateot}) becomes
+%Using the constraint (\ref{eqn:etaconstraint}) the value of $\eta_{lk}$ to achieve $\bar{R}^{MR}$ is
+%\begin{eqnarray}
+%    \eta_{lk} &=& \frac{\rho_b\sum\limits_{j=1}^{L}\beta_{lkj}+\rho_o\left(\sum\limits_{j=1}^{L}\beta_{lkj} -\gamma_{lkl}\right)+1}{\gamma_{lkl}\mathlarger{\mathlarger{\sum}}\limits_{k'=1}^{K}\left(\dfrac{\rho_b\sum\limits_{j=1}^{L}\beta_{lk'j}+\rho_o\left(\sum\limits_{j=1}^{L}\beta_{lk'j} -\gamma_{lk'l}\right)+1}{\gamma_{lk'l}}\right)}
+%\end{eqnarray}
+%and the value of rate is given by
+%\begin{eqnarray}
+%    \bar{R}^{MR} =log_2\left(1+\frac{M\rho_b}{\mathlarger{\mathlarger{\sum}}\limits_{k=1}^{K}\left(\frac{\rho_b\sum\limits_{j=1}^{L}\beta_{lkj}+\rho_o\left(\sum\limits_{j=1}^{L}(\beta_{lkj} -\gamma_{lkj}\right)+1}{\gamma_{lkl}}\right)} \right)
+%\end{eqnarray}
+  
+%	The stratergy can be explained as follows. Considering the denomintor in (\ref{eqn:rateot}) except the second term all other terms depends directly on the total number of terminals in any particular cell. Thus as long as the number of terminals in a cell is constant these terms an be considered as constant. The second term is the noise from the contaminating cells and depends on the cell under consideration. This is the coherent interference. As the first step in power allocation, we assume that the contamination from other cells is zero, which implies that the denominator is a constant, and design a value for $\eta_{lp}=\hat \eta_{lp}$. Using this value of $\hat \eta_{lp}$ the actual value of SINR (with the coherent interference term) ($\pmb{\widetilde{SINR}}_{lp}^{l}$) is calculated. Dividing this SINR by $\hat \eta_{lp}$ is equivalent to finding the SINR for the terminal with maximum $\eta_{lp}$, i.e 1. Thus an optimum value for $\eta_{lk}$ shall be found by making use of the criteria in (\ref{eqn:etaconstraint}).
+%	
+%	For simplicity let us represent the neumerator in (\ref{eqn:rateot}) as $a_{lkl}\eta_{lk} $, first term in denominator as $b_{lk'}^{l}$, second term as $c_{jk'}^{l}$ and third term as $d_{o}^{j}$. Thus (\ref{eqn:rateot}) becomes
 %\begin{eqnarray}
 %	R_k^{MR} = log_2\left[ 1+ \frac{a_{lp}^{l}\eta_{lp}}{b_{lk'}^{l}+c_{jk'}^{l}+d_{o}^{j}+L}\right]
 %\end{eqnarray}

@@ -343,7 +343,7 @@ The signal received by the OT in the $l$-th cell is given by
 where
 \begin{eqnarray}
 	\pmb{h}_{ejl} &\triangleq& \pmb{U}_j^H\Pi^{\perp}_{{\hat{\pmb{G}}_j}}\pmb{h}_{jl} = \pmb{U}_j^H\pmb{h}_{jl} \\
-    \mathbb{E}[\pmb{h}_{ejl}\pmb{h}^H_{ejl}|\pmb{\hat G}_j] &=& \beta_{oJl}\pmb{I} \nonumber \\
+    \mathbb{E}[\pmb{h}_{ejl}\pmb{h}^H_{ejl}|\pmb{\hat G}_j] &=& \beta_{ojl}\pmb{I} \nonumber \\
 			                     &=& \mathbb{E}[\pmb{h}_{ejl}\pmb{h}^H_{ejl}] \nonumber \\
                                            &\triangleq& \pmb{C}_{\pmb{h}_{ejl}} \nonumber
 \end{eqnarray}
@@ -351,16 +351,16 @@ and $\pmb{q}_j^p(t)$ are the known pilot signals sent at time $t$ from the BS of
 
 At the $l$-th cell, OT correlates $y_{ol}(t)$ with the pilot and the resulting signal is
 \begin{eqnarray}
-	\pmb{y}_{ol}^{p} &\triangleq& \sum_{t=1}^{\tau_p^o} y_{ol}^*(t)(\pmb{q}^{p}_{j}(t))^T \nonumber
+	\pmb{y}_{ol}^{p} &\triangleq& \sum_{t=1}^{\tau_p^o} y_{ol}^*(t)(\pmb{q}^{p}_{l}(t))^T \nonumber
 \end{eqnarray}
 The total power transmitted for the broadcast of SI is the same during pilot and payload phase and therefore
 \begin{eqnarray}
-    \sum\limits_{t=1}^{\tau_p^o}(\pmb{q}^p_{j}(t))^*(\pmb{q}^p_{j}(t))^T&=&\frac{\tau_p^o}{M'}\pmb{I} \\
+    \sum\limits_{t=1}^{\tau_p^o}(\pmb{q}^p_{l}(t))^*(\pmb{q}^p_{l}(t))^T&=&\frac{\tau_p^o}{M'}\pmb{I} \\
 \implies \pmb{y}_{ol} &=& \sqrt{\rho_o}\frac{\tau_p^o}{M'}\sum_{j=1}^{L}\pmb{h}_{ejl}+\pmb{n}^p_{ol}
 \end{eqnarray}
 The variance of AWGN noise $\pmb{n}_{ol}^p$ is calculated as
 \begin{eqnarray}
-	\mathbb{E}[\pmb{n}^p_{oj}(\pmb{n}^p_{ok})^H] &=& \frac{\tau_p^o}{M'}I \nonumber
+	\mathbb{E}[\pmb{n}^p_{ol}(\pmb{n}^p_{ol})^H] &=& \frac{\tau_p^o}{M'}I \nonumber
 \end{eqnarray}
 Following the same procedure as in section (\ref{sec:btchesti}) the channel estimate from the $l$-th cell BS to the OT can be derived as 
 \begin{eqnarray}\label{eqn:otchesti}

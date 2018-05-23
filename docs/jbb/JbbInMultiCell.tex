@@ -151,13 +151,13 @@ Our next aim is to find the information rate by finding the signal power and the
 
 The signal power(SP) can be calculated from the first term as
 \begin{eqnarray}
-	SP^{BT} &\triangleq&  \frac{\rho_b\eta_{lk}}{M\gamma_{lkl}}(\mathbb{E}[||\pmb{\hat g}_{lkl}||^2])^2 \nonumber \\
+	SP^{BT} &\triangleq&  \frac{\rho_b\eta_{lk}}{M\gamma_{lkl}}\left(\mathbb{E}\left[\Bigm|\Bigm|\pmb{\hat g}_{lkl}\Bigm|\Bigm|^2\right]\right)^2 \nonumber \\
             &=& \rho_b\eta_{lk}M\gamma_{lkl}
 \end{eqnarray}
 The variance of second term in (\ref{eqn:completeot}) is given by
 \begin{eqnarray}\label{eq:noiseF1}
-	V_1^{BT} &\triangleq& \frac{\rho_b \eta_{lk}}{M\gamma_{lkl}}   \mathbb{E}[|s_{lk}(t)\left(||\pmb{\hat g}_{lkl}||^2- \mathbb{E}[||\pmb{\hat  g}_{lkl}||^2] \right)|^2] \nonumber \\
-	    &=& \frac{\rho_b \eta_{lk}}{M\gamma_{lkl}}\left[\mathbb{E}[||\pmb{\hat g}_{lkl}||^4] - (\mathbb{E}[||\pmb{\hat g}_{lkl}||^2])^2 \right] \nonumber  \\
+	V_1^{BT} &\triangleq& \frac{\rho_b \eta_{lk}}{M\gamma_{lkl}}   \mathbb{E}\left[\Bigm|s_{lk}(t)\left(\Bigm|\Bigm|\pmb{\hat g}_{lkl}\Bigm|\Bigm|^2- \mathbb{E}\left[\Bigm|\Bigm|\pmb{\hat  g}_{lkl}\Bigm|\Bigm|^2\right] \right)\Bigm|^2\right] \nonumber \\
+	    &=& \frac{\rho_b \eta_{lk}}{M\gamma_{lkl}}\left[\mathbb{E}\left[\Bigm|\Bigm|\pmb{\hat g}_{lkl}\Bigm|\Bigm|^4\right] - \left(\mathbb{E}\left[\Bigm|\Bigm|\pmb{\hat g}_{lkl}\Bigm|\Bigm|^2\right]\right)^2 \right] \nonumber  \\
 	    &=& \rho_b\eta_{lk}\gamma_{lkl}
 \end{eqnarray}
 In (\ref{eq:noiseF1}), since the elements of $\pmb{\hat g}_{lkl}$ have i.i.d  $CN(0,\gamma_{lkl})$ distribution, the value of $\mathbb{E}[||\pmb{\hat g}_{lkl}||^4]$ is evaluated to be $(M)(M+1)\gamma_{lkl}^2$.
@@ -218,7 +218,7 @@ For the scenario where $i\neq j$ the channel estimates of different cells are un
 \begin{eqnarray}\label{eqn:v6}
    V_5^{BT} &=& V_{5,i=j=l}^{BT} + V_{5,i=j\neq l}^{BT} \nonumber \\ &=&\rho_o\left(\sum\limits_{j=1}^{L}\beta_{lkj}-\gamma_{lkl}\right)
 \end{eqnarray}
-The variance of the AWGN noise term is calculated as $1$.\\
+The variance of the AWGN term is calculated as $1$.\\
 Thus the information rate for the $k$-th BT of the $l$-th cell can be written as
 \begin{eqnarray}\label{eqn:rateotwitheta}
 R_{lk}^{MR} &=& log_2\left[1+\dfrac{M\rho_b\eta_{lk}\gamma_{lkl}}{ \rho_b\sum\limits_{j=1}^{L}\beta_{lkj}\left(\sum\limits_{k'=1}^K\eta_{jk'}\right) +M\rho_b\sum\limits_{\substack{j=1 \\ j \neq l}}^{L}\beta_{lkj}\eta_{jk} +\rho_o\left(\sum\limits_{j=1}^{L}\beta_{lkj} -\gamma_{lkl}\right)+1}\right]
@@ -278,8 +278,8 @@ By max-min fairness policy $\pmb{SINR}_{lk} = \overline{\pmb{SINR}}_{l} \ \foral
 	The OT receives a signal which is a combination of data to the BT, data for the OT and the noise. We assume that the OT experiences independent Rayleigh fading such that the channel response from the BS of $j$-th cell to OT of $l$-th cell is $\pmb{h}_{jl}$ $\sim CN(0,\pmb{C}_{\pmb{h}_{jl}}$) where $\pmb{C}_{\pmb{h}_{jl}} = \beta_{ojl}I$. The channel from the BS to the UT shall be estimated first. Using this estimated value, with JBB, the received signal at the OT shall be evaluated to find the signal power, noise/interference variance and the achievable rate.
 
 \subsection{Pilot Phase}
-	The BS sends the pilots to the OT for channel estimation. We assume that in the pilot phase there is no transmission to BT.
-The signal received by the OT in the $l$-th cell is given by
+    We consider a modified version of JBB, named as JBB', in which we assume there is no transmission to BT during the pilot phase of OT. The BS sends the pilots to the OT for channel estimation. 
+The signal received by OT in the $l$-th cell is given by
 \begin{eqnarray}
 	y_{ol}(t)=\sqrt{\rho_o} \sum_{j=1}^{L} \pmb{h}^H_{ejl} \ \pmb{q}^p(t) + w_{ol}(t) 
 \end{eqnarray}
@@ -290,41 +290,52 @@ where
 			                     &=& \mathbb{E}[\pmb{h}_{ejl}\pmb{h}^H_{ejl}] \nonumber \\
                                            &\triangleq& \pmb{C}_{\pmb{h}_{ejl}} \nonumber
 \end{eqnarray}
-and $\pmb{q}_j^p(t)$ are the known pilot signals sent at time $t$ from the BS of $j$-th cell.
+and $\pmb{q}^p(t)$ are the known pilot signals sent at time $t$.
+The OT correlates $y_{ol}(t)$ with the pilot sequence to obtain
+\begin{eqnarray}
+	\pmb{y}_{ol}^{p} &\triangleq& \sum_{t=1}^{\tau_p^o} y_{ol}(t)(\pmb{q}^{p}(t))^H \nonumber
+\end{eqnarray}
+where $\tau_p^o$ is the total number of symbols send in the pilot phase.
 
-At the $l$-th cell, OT correlates $y_{ol}(t)$ with the pilot and the resulting signal is
+The total power transmitted for the broadcast of SI is the same during pilot and payload phase. Therefore
 \begin{eqnarray}
-	\pmb{y}_{ol}^{p} &\triangleq& \sum_{t=1}^{\tau_p^o} y_{ol}^*(t)(\pmb{q}^{p}(t))^T \nonumber
+    \sum\limits_{t=1}^{\tau_p^o}\pmb{q}^p_{l}(t)(\pmb{q}^p_{l}(t))^H&=&\frac{\tau_p^o}{M'}\pmb{I} \\
+\implies \pmb{y}_{ol} &=& \sqrt{\rho_o}\frac{\tau_p^o}{M'}\sum_{j=1}^{L}\pmb{h}^H_{ejl}+\pmb{n}^p_{ol}
 \end{eqnarray}
-The total power transmitted for the broadcast of SI is the same during pilot and payload phase and therefore
-\begin{eqnarray}
-    \sum\limits_{t=1}^{\tau_p^o}(\pmb{q}^p_{l}(t))^*(\pmb{q}^p_{l}(t))^T&=&\frac{\tau_p^o}{M'}\pmb{I} \\
-\implies \pmb{y}_{ol} &=& \sqrt{\rho_o}\frac{\tau_p^o}{M'}\sum_{j=1}^{L}\pmb{h}_{ejl}+\pmb{n}^p_{ol}
-\end{eqnarray}
-The variance of AWGN noise $\pmb{n}_{ol}^p$ is calculated as
+The variance of AWGN, $\pmb{n}_{ol}^p$, is given by
 \begin{eqnarray}
 	\mathbb{E}[\pmb{n}^p_{ol}(\pmb{n}^p_{ol})^H] &=& \frac{\tau_p^o}{M'}I \nonumber
 \end{eqnarray}
-Following the same procedure as in section (\ref{sec:btchesti}) the channel estimate from the $l$-th cell BS to the OT can be derived as 
+Following the same procedure as in section (\ref{sec:btchesti}), the channel estimate from the $l$-th cell BS to the OT can be derived as 
 \begin{eqnarray}\label{eqn:otchesti}
 	\pmb{\hat h}_{ell} &=& \frac{M'\sqrt{\rho_o}\beta_{oll}}{M'+\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}}\pmb{y}^p_{ol}
 \end{eqnarray}
-Similarly the variance of the estimate and error variance are
+Similarly the co-variance matrix of the estimate is
 \begin{eqnarray}
-	\pmb{C}_{\pmb{\hat h}_{ejl}} &\triangleq& \mathbb{E}[\pmb{\hat h}_{ejl}\pmb{\hat h}^H_{ejl}] = \frac{\rho_o\tau_p^o\beta^2_{oll}}{\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}+M'}\pmb{I} \\
-	\pmb{C}_{\pmb{\widetilde{h}}_{ejl}} &=& \beta_{ojl} - 	\pmb{C}_{\pmb{\hat h}_{ejl}}
+	\pmb{C}_{\pmb{\hat h}_{ejl}} &\triangleq& \mathbb{E}[\pmb{\hat h}_{ejl}\pmb{\hat h}^H_{ejl}] = \frac{\rho_o\tau_p^o\beta^2_{oll}}{\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}+M'}\pmb{I}
 \end{eqnarray}
-
+and the co-variance matrix of error in estimate is
+\begin{eqnarray}
+	\pmb{C}_{\pmb{\widetilde{h}}_{ejl}} &=& \beta_{ojl}\pmb{I} - 	\pmb{C}_{\pmb{\hat h}_{ejl}}
+\end{eqnarray}
 \subsection{Payload Phase}
 
-The received signal at the OT in the $l$-th cell is given by
+The received signal at OT in the $l$-th cell is given by
+\begin{eqnarray}\label{eqn:otytorg}
+y_{ol}(t) = \sqrt{\rho_o} \sum_{j=1}^{L} \pmb{h}^T_{ejl} \pmb{q}_j(t)
++ \sqrt{\rho_b} \sum_{j=1}^{L} \pmb{h}^T_{jl} \left(\sum_{k'=1}^{K} \pmb{v}_{jk'} s_{jk'}(t)\right) + w_{ol}(t)  
+\end{eqnarray} 
+Since there is no transmission to BTs during the pilot phase of OT, in order to spend the same amount of energy per coherence interval the value of $\rho_b$ in $(\ref{eqn:otytorg})$ must be replaced with
+\begin{eqnarray}
+\rho_b' \triangleq \frac{\tau_d^d}{\tau_d^d-\tau_p^o}\rho_b
+\end{eqnarray}
+where $\tau_d^d$ is the total number of downlink payload symbols.
+Thus the received signal is
 \begin{eqnarray}\label{eqn:otyt}
  y_{ol}(t) = \sqrt{\rho_o} \sum_{j=1}^{L} \pmb{h}^T_{ejl} \pmb{q}_j(t)
             + \sqrt{\rho_b'} \sum_{j=1}^{L} \pmb{h}^T_{jl} \left(\sum_{k'=1}^{K} \pmb{v}_{jk'} s_{jk'}(t)\right) + w_{ol}(t)  
 \end{eqnarray} 
-Note that in (\ref{eqn:otyt}) power transmitted by BT is $\rho_b'$. Since there is no transmission to the BT during the pilot phase of OT, in order to spend the same amount of energy per coherence interval, the power transmitted by BT shall be different from $\rho_b$.
-
-Considering the $l$-th cell and substituting $\pmb{h}_{el} = \pmb{\hat h}_{el}-\pmb{\widetilde{h}}_{el}$, the equation (\ref{eqn:otyt}) can be written as
+Considering the term for transmission from $l$-th BS and substituting $\pmb{h}_{ell} \triangleq \pmb{\hat h}_{ell}-\pmb{\widetilde{h}}_{ell}$, the equation (\ref{eqn:otyt}) can be written as
 \begin{eqnarray}\label{eqn:otcomplete}
   y_{ol}(t)= \sqrt{\rho_o} \pmb{\hat h}^T_{ell} \ \pmb{q}_l(t) 
 	    - \sqrt{\rho_o}\pmb{\widetilde{h}}^T_{ell}\pmb{q}_l(t)
@@ -332,16 +343,17 @@ Considering the $l$-th cell and substituting $\pmb{h}_{el} = \pmb{\hat h}_{el}-\
             + \sqrt{\rho_b'} \sum_{j=1}^{L} \pmb{h}^T_{jl} \left(\sum_{k'=1}^{K} \pmb{v}_{jk'} s_{jk'}(t) \right)             
 	    + w_{ol}(t)  
 \end{eqnarray}
-The first term in (\ref{eqn:otcomplete}) is the required signal and other terms constitute to the interference and noise. To find the information rate, the signal power along with the noise/intereference variance shall be calculated. Please note that the signal, intereference and the noise are mutually uncorrelated. 
+The first term in (\ref{eqn:otcomplete}) is the required signal and other terms constitute to interference and noise. The signal, intereference and the noise terms are mutually uncorrelated. 
 
 The signal power is given as
 \begin{eqnarray}
-SP^{OT} &\triangleq& \rho_o\mathbb{E}[|\pmb{\hat h}_{ell}^H \pmb{q}_l(t)|^2 | \pmb{\hat h}_{ell}] = \rho_o\mathbb{E}[||\pmb{\hat h}_{ell}||^2 | \pmb{\hat h}_{ell}] \nonumber \\     &=& \frac{\rho_o}{M'} ||\pmb{\hat h}_{ell}||^2
+SP^{OT} &\triangleq& \rho_o\mathbb{E}\left[\Bigm|\pmb{\hat h}_{ell}^T \pmb{q}_l(t)\Bigm|^2 | \pmb{\hat h}_{ell}\right] = \frac{\rho_o}{M'}\mathbb{E}\left[\Bigm|\Bigm|\pmb{\hat h}_{ell}\Bigm|\Bigm|^2 | \pmb{\hat h}_{ell}\right] \nonumber \\    
+         &=& \frac{\rho_o}{M'} \Bigm|\Bigm|\pmb{\hat h}_{ell}\Bigm|\Bigm|^2
 \end{eqnarray}
 The noise variances for the other terms in (\ref{eqn:otcomplete}) are as follows
 \begin{eqnarray}\label{eqn:otv1}
-	V_1^{OT} &\triangleq=& \mathbb{E}[|\sqrt{\rho_o}\pmb{\widetilde{h}}_{ell}^H \pmb{q}_l(t)|^2|\pmb{\hat h}_{ell}] \nonumber \\
-            &=& \frac{\rho_o}{M'} \mathbb{E}[||\pmb{\widetilde{h}}_{ell}||^2 |\pmb{\hat h}_{ell}] \nonumber \\
+	V_1^{OT} &\triangleq=& \rho_o\mathbb{E}\left[\Bigm|\pmb{\widetilde{h}}_{ell}^T \pmb{q}_l(t)\Bigm|^2|\pmb{\hat h}_{ell}\right] \nonumber \\
+            &=& \frac{\rho_o}{M'} \mathbb{E}\left[\Bigm|\Bigm|\pmb{\widetilde{h}}_{ell}\Bigm|\Bigm|^2 |\pmb{\hat h}_{ell}\right] \nonumber \\
             &=& \frac{\rho_o}{M'}\left(\beta_{oll}-\frac{\rho_o\tau_p^o\beta^2_{oll}}{\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}+M'}\right)          
 \end{eqnarray}
 \begin{eqnarray}\label{eqn:otv2}
@@ -351,30 +363,30 @@ The noise variances for the other terms in (\ref{eqn:otcomplete}) are as follows
 \begin{eqnarray}\label{eqn:v3ot}
 	V_3^{OT} &\triangleq& \rho_b' \mathbb{E}\left[\left| \sum_{j=1}^{L}\sum_{k'=1}^{K} \pmb{h}^T_{jl} \pmb{v}_{jk'}s_{jk'}(t) \right|^2 | \pmb{\hat h}_{ell} \right] 
 \end{eqnarray}
-Consider the case when $l=j=l$.
+When $i=j=l$,
 \begin{eqnarray}
-     V_{3l}^{OT} &\triangleq& \rho_b' \sum_{j=1}^{L} \mathbb{E}\left[\sum_{k'=1}^{K} \pmb{v}_{lk'}^T \pmb{h}_{ll}^*  \pmb{h}_{ll}^T \pmb{v}_{lk'}^*| \pmb{\hat h}_{ell} \right] \nonumber \\
-            &=& \rho_b' \sum_{j=1}^{L} \mathbb{E}\left[\mathbb{E}\left[\sum_{k'=1}^{K} \pmb{v}^T_{lk'} \pmb{h}_{ll}^*  \pmb{h}_{ll}^T \pmb{v}_{lk'}^*| \pmb{\hat h}_{ell},  \pmb{\hat G}_{l} \right] | \pmb{\hat h}_{ell}\right] \nonumber \\
-            &=& \rho_b' \sum_{j=1}^{L} \mathbb{E}\left[\ \pmb{v}^T_{lk'}\sum_{k'=1}^{K} \mathbb{E}\left[ \pmb{h}_{ll}^*  \pmb{h}^T_{ll} | \pmb{\hat h}_{ell},  \pmb{\hat G}_{l} \right] \pmb{v}_{lk'}^*| \pmb{\hat h}_{ell}\right]
+     V_{3l}^{OT} &\triangleq& \rho_b' \sum_{j=1}^{L} \mathbb{E}\left[\sum_{k'=1}^{K} \pmb{v}_{lk'}^H \pmb{h}_{ll}^*  \pmb{h}_{ll}^T\pmb{v}_{lk'}| \pmb{\hat h}_{ell} \right] \nonumber \\
+            &=& \rho_b' \sum_{j=1}^{L} \mathbb{E}\left[\mathbb{E}\left[\sum_{k'=1}^{K} \pmb{v}^H_{lk'} \pmb{h}_{ll}^* \pmb{h}_{ll}^T \pmb{v}_{lk'}| \pmb{\hat h}_{ell},  \pmb{\hat G}_{l} \right] | \pmb{\hat h}_{ell}\right] \nonumber \\
+            &=& \rho_b' \sum_{j=1}^{L} \mathbb{E}\left[\sum_{k'=1}^{K}\pmb{v}^H_{lk'} \mathbb{E}\left[ \pmb{h}_{ll}^*  \pmb{h}^T_{ll} | \pmb{\hat h}_{ell},  \pmb{\hat G}_{l} \right] \pmb{v}_{lk'}| \pmb{\hat h}_{ell}\right]
 \end{eqnarray}
-The inner expectation can simplified using the equality \cite{bib:rmtBook}
+The inner expectation can simplified using the equality from \cite{bib:rmtBook}.
 \begin{eqnarray}
-	\mathbb{E}[\pmb{h}_{ll}^*\pmb{h}^T_{ll}|\pmb{\hat h}_{ell}, \pmb{\hat G}_{l}] = \pmb{C}_{\pmb{h}_{ll}}-\mathbb{E}[\pmb{h}_{ll}^* \pmb{\hat h}^T_{ell}| \pmb{\hat G}_{l}] - \pmb{C}_{\pmb{\hat h}_{ell}}^{-1}\mathbb{E}[\pmb{\hat h}_{ell}^T \pmb{h}_{ll}^*| \pmb{\hat G}_{l}]
+	\mathbb{E}[\pmb{h}_{ll}^*\pmb{h}^T_{ll}|\pmb{\hat h}_{ell}, \pmb{\hat G}_{l}] = \pmb{C}_{\pmb{h}_{ll}}-\mathbb{E}[\pmb{h}_{ll}^* \pmb{\hat h}^T_{ell}| \pmb{\hat G}_{l}] \ . \ \pmb{C}_{\pmb{\hat h}_{ell}}^{-1} .\ \mathbb{E}[\pmb{\hat h}_{ell}^* \pmb{h}_{ll}^T| \pmb{\hat G}_{l}]
 \end{eqnarray}
 where
 \begin{eqnarray}
-	\mathbb{E}[\pmb{\hat h}_{ell}^T \pmb{h}_{ll}^*| \pmb{\hat G}_{l}] = \frac{\beta_{oll}^{2}\rho_o\tau_p^o}{M'+\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}}\pmb{U}_l
+	\mathbb{E}[\pmb{h}_{ll}^* \pmb{\hat h}_{ell}^T | \pmb{\hat G}_{l}] = \frac{\beta_{oll}^{2}\rho_o\tau_p^o}{M'+\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}}\pmb{U}_l
 \end{eqnarray}
 Also note that $\pmb{U_l}^H\pmb{v}_{lk}=0$ for all $k$ since $\pmb{U_l^H}\pmb{\hat G_l}=0$. Thus
 \begin{eqnarray}\label{eqn:otv3}
-	V_{3l}^{OT} &=& \rho_b' \sum_{j=1}^{L} \left( \beta_{oj} \mathbb{E}\left[\sum_{k'=1}^{K}||\pmb{v}_{jk'}||^2\right]
-					- \frac{\beta_{oj}^{2}\rho_o\tau_p^o\pmb{U}_j}{M'+\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{oj}} \mathbb{E}\left[\sum_{k'=1}^{K} \pmb{v}_{jk'}^H \pmb{U}_j \pmb{U}_j^H \pmb{v}_{jk'}\right]\right) \nonumber \\
+	V_{3l}^{OT} &=& \rho_b'\left( \beta_{oll} \mathbb{E}\left[\sum_{k'=1}^{K}||\pmb{v}_{lk'}||^2\right]
+					- \frac{\beta_{oll}^{2}\rho_o\tau_p^o}{M'+\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}} \mathbb{E}\left[\sum_{k'=1}^{K} \pmb{v}_{lk'}^H \pmb{U}_l \pmb{U}_l^H \pmb{v}_{lk'}\right]\right) \nonumber \\
 %	    &=& \rho_b'\sum_{j=1}^{L}\beta_{oj}
         &=& \rho_b'\beta_{oll}
 \end{eqnarray}
-For the scenario when $i=j\neq l$
+When $i=j\neq l$
 \begin{eqnarray}\label{eqn:v3jot}
-V_{3j}^{OT} &\triangleq& \rho_b' \sum_{\substack{j=1 \\ j\neq l}}^{L} \mathbb{E}\left[\sum_{k'=1}^{K} \pmb{v}_{jk'}^T \pmb{h}_{jl}^*  \pmb{h}_{jl}^T \pmb{v}_{jk'}^*| \pmb{\hat h}_{ell} \right] \nonumber \\
+V_{3j}^{OT} &\triangleq& \rho_b' \sum_{\substack{j=1 \\ j\neq l}}^{L} \mathbb{E}\left[\sum_{k'=1}^{K} \pmb{v}_{jk'}^H \pmb{h}_{jl}^*  \pmb{h}_{jl}^T \pmb{v}_{jk'}| \pmb{\hat h}_{ell} \right] \nonumber \\
            &=&  \rho_b' \sum_{\substack{j=1 \\ j\neq l}}^{L}\left(\sum_{k'=1}^{K} \mathbb{E}\left[||\pmb{v}_{jk'}||^2\right]\right)\mathbb{E}\left[ ||\pmb{h}_{jl}||^2\right] \nonumber \\
            &=&\rho_b' \sum_{\substack{j=1 \\ j\neq l}}^{L}\beta_{ojl}
 \end{eqnarray}

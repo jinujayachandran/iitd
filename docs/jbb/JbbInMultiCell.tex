@@ -191,7 +191,7 @@ The variance of the term transmitted for OT in (\ref{eqn:completeot}) is given b
 \begin{eqnarray}
 	V_5^{BT} &\triangleq& \rho_o\mathbb{E}\left[\Bigm|\sum_{j=1}^{L}\pmb{g}_{lkj}^T\Pi^{\perp}_{{\widehat{\pmb{G}}_j}}\pmb{U}_j \pmb{q}_{j}\Bigm|^2\right] 
 	        = \rho_o\sum\limits_{j=1}^{L}\sum\limits_{i=1}^{L}\mathbb{E}\left[\pmb{q}_j^H\pmb{U}_j^H \Pi^{\perp}_{\pmb{\widehat{G}}_j} \pmb{g}_{lkj}^* \pmb{g}_{lki}^{T}\Pi^{\perp}_{\pmb{\widehat{G}}_i} \pmb{U}_i\pmb{q}_i\right] \nonumber \\
-            &=&\frac{\rho_o}{M'}\sum_{j=1}^{L}\sum_{i=1}^{L} \mathbb{E}\left[\pmb{g}_{lkj}^{T}\Pi^{\perp}_{\pmb{\widehat{G}}_j}\pmb{U}_j\pmb{q}_j^*\pmb{q}^T_i\pmb{U}_i^H\Pi^{\perp}_{\pmb{\widehat{G}}_i}\pmb{g}_{lki}^* \right] \nonumber
+            &=&\rho_o\sum_{j=1}^{L}\sum_{i=1}^{L} \mathbb{E}\left[\pmb{g}_{lki}^{T}\Pi^{\perp}_{\pmb{\widehat{G}}_i}\pmb{U}_i\pmb{q}_i\pmb{q}^H_j\pmb{U}_j^H\Pi^{\perp}_{\pmb{\widehat{G}}_j}\pmb{g}_{lkj}^* \right] \nonumber
 \end{eqnarray}
 Since $\pmb{q}_j=\pmb{q}_i$, $\mathbb{E}[\pmb{q}_j^H\pmb{q}_i]=\frac{1}{M'}$. Thus
 \begin{eqnarray}\label{eqn:noiseF4_1}	    
@@ -277,7 +277,7 @@ By max-min fairness policy $\pmb{SINR}_{lk} = \overline{\pmb{SINR}}_{l} \ \foral
 \end{eqnarray}
 
 \section{Performance for the O-Terminals}
-	The signal received by OT is a combination of data to the BT, data for the OT and the noise. We assume that the OT experiences independent Rayleigh fading such that the channel response from the BS of $j$-th cell to OT of $l$-th cell is $\pmb{h}_{jl}$ $\sim CN(0,\pmb{C}_{\pmb{h}_{jl}}$) where $\pmb{C}_{\pmb{h}_{jl}} = \beta_{ojl}I$. The OT sees information symbols transmitted over channel with effective channel response $\Pi^{\perp}_{{\widehat{\pmb{G}}_j}}\pmb{h}_{jl}$, which is unknown to OT. To find the achievable rates of transmission for OT, the channel from the BS to the OT shall be estimated and using this estimated value the received signal at the OT shall be evaluated to find the signal power, noise/interference variance.
+	The signal received by OT is a combination of data to the BT, data for the OT and the noise. We assume that the OT experiences independent Rayleigh fading such that the channel response from the BS of $j$-th cell to OT of $l$-th cell is $\pmb{h}_{jl}$ $\sim CN(0,\pmb{C}_{\pmb{h}_{jl}}$) where $\pmb{C}_{\pmb{h}_{jl}} = \beta_{ojl}I$. To find the achievable rates of transmission, the channel from the BS to the OT shall be estimated and using this estimated value the received signal at the OT shall be evaluated to find the signal power, noise/interference variance.
 
 \subsection{Pilot Phase}
     We consider a modified version of JBB, named as JBB', in which we assume there is no transmission to BT during the pilot phase of OT. 
@@ -314,11 +314,11 @@ Following the same procedure as in section (\ref{sec:btchesti}), the channel est
 \end{eqnarray}
 Similarly the co-variance matrix of the estimate is
 \begin{eqnarray}
-	\pmb{C}_{\pmb{\hat h}_{ejl}} &\triangleq& \mathbb{E}[\pmb{\hat h}_{ejl}\pmb{\hat h}^H_{ejl}] = \frac{\rho_o\tau_p^o\beta^2_{oll}}{\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}+M'}\pmb{I}
+	\pmb{C}_{\pmb{\hat h}_{ell}} &\triangleq& \mathbb{E}[\pmb{\hat h}_{ell}\pmb{\hat h}^H_{ell}] = \frac{\rho_o\tau_p^o\beta^2_{oll}}{\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}+M'}\pmb{I}
 \end{eqnarray}
 and the co-variance matrix of error in estimate is
 \begin{eqnarray}
-	\pmb{C}_{\pmb{\widetilde{h}}_{ejl}} &=& \beta_{ojl}\pmb{I} - 	\pmb{C}_{\pmb{\hat h}_{ejl}}
+	\pmb{C}_{\pmb{\widetilde{h}}_{ell}} &=& \beta_{oll}\pmb{I} - 	\pmb{C}_{\pmb{\hat h}_{ell}}
 \end{eqnarray}
 \subsection{Payload Phase}
 
@@ -356,11 +356,11 @@ The noise variances for the other terms in (\ref{eqn:otcomplete}) are as follows
 \begin{eqnarray}\label{eqn:otv1}
 	V_1^{OT} &\triangleq=& \rho_o\mathbb{E}\left[\Bigm|\pmb{\widetilde{h}}_{ell}^T \pmb{q}_l(t)\Bigm|^2|\pmb{\hat h}_{ell}\right] \nonumber \\
             &=& \frac{\rho_o}{M'} \mathbb{E}\left[\Bigm|\Bigm|\pmb{\widetilde{h}}^T_{ell}\Bigm|\Bigm|^2 |\pmb{\hat h}_{ell}\right] \nonumber \\
-            &=& \frac{\rho_o}{M'}\left(\beta_{oll}-\frac{\rho_o\tau_p^o\beta^2_{oll}}{\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}+M'}\right)          
+            &=& \rho_o\left(\beta_{oll}-\frac{\rho_o\tau_p^o\beta^2_{oll}}{\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}+M'}\right)          
 \end{eqnarray}
 \begin{eqnarray}\label{eqn:otv2}
 	V_2^{OT} &\triangleq& \rho_o \mathbb{E}\left[\left\vert\sum_{\substack{j=1 \\ j \neq l}}^{L} \pmb{h}^T_{ejl} \pmb{q}_j(t)\right\vert^2|\pmb{\hat h}_{ell}\right] \nonumber \\
-            &=& \frac{\rho_o}{M'} \sum_{\substack{j=1 \\ j\neq l}}^{L} \beta_{ojl}
+            &=& \rho_o\sum_{\substack{j=1 \\ j\neq l}}^{L} \beta_{ojl}
 \end{eqnarray}
 \begin{eqnarray}\label{eqn:v3ot}
 	V_3^{OT} &\triangleq& \rho_b' \mathbb{E}\left[\left| \sum_{j=1}^{L}\sum_{k'=1}^{K} \pmb{h}^T_{jl} \pmb{v}_{jk'}s_{jk'}(t) \right|^2 | \pmb{\hat h}_{ell} \right] 
@@ -390,11 +390,11 @@ When $i=j\neq l$
 \begin{eqnarray}\label{eqn:v3jot}
 V_{3j}^{OT} &\triangleq& \rho_b' \sum_{\substack{j=1 \\ j\neq l}}^{L} \mathbb{E}\left[\sum_{k'=1}^{K} \pmb{v}_{jk'}^H \pmb{h}_{jl}^*  \pmb{h}_{jl}^T \pmb{v}_{jk'}| \pmb{\hat h}_{ell} \right] \nonumber \\
            &=&  \rho_b' \sum_{\substack{j=1 \\ j\neq l}}^{L}\left(\sum_{k'=1}^{K} \mathbb{E}\left[||\pmb{v}_{jk'}||^2\right]\right)\mathbb{E}\left[ \Bigm|\Bigm|\pmb{h}_{jl}\Bigm|\Bigm|^2\right] \nonumber \\
-           &=&\rho_b' \sum_{\substack{j=1 \\ j\neq l}}^{L}\beta_{ojl}
+           &=&\rho_b'M' \sum_{\substack{j=1 \\ j\neq l}}^{L}\beta_{ojl}
 \end{eqnarray}
 When $i\neq j\neq l$ the value is zero. Thus
 \begin{eqnarray}
-V_3^{OT} &=&\rho_b' \sum_{j=1}^{L}\beta_{ojl}
+V_3^{OT} &=&\rho_b' \left(\beta_{oll}+ M' \sum_{\substack{j=1 \\ j\neq l}}^{L}\beta_{ojl}\right)
 \end{eqnarray}
 
 For the AWGN term, the noise variance is, $V_4^{OT} = 1$
@@ -403,23 +403,23 @@ The rate for the OT is
 \begin{eqnarray}\label{eqn:rateotfull}
 	R_{ol} &\triangleq& \mathbb{E}_{\pmb{\hat h}_{ell}}\left[log_2\left(1+\frac{\frac{\rho_o||\pmb{\hat h}_{ell}||^2}{M'}}{V_1^{OT}+V_2^{OT}+V_3^{OT}+V_4^{OT}}\right) \right] \nonumber \\
             &=&  \mathbb{E}_{\pmb{\hat h}_{ell}}\left[log_2\left(1+\frac{\frac{\rho_o||\pmb{\hat h}_{ell}||^2}{M'}}
-								 {\frac{\rho_o}{M'}(\beta_{oll}-\frac{\rho_o\tau_p^o\beta^2_{oll}}{\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}+M'})        
-								  + \frac{\rho_o}{M'} \sum\limits_{\substack{j=1 \\ j\neq l}}^{L} \beta_{ojl} 
-								  +\rho_b'\sum\limits_{j=1}^{L}\beta_{ojl}
+								 {\rho_o\left(\beta_{oll}-\frac{\rho_o\tau_p^o\beta^2_{oll}}{\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}+M'}\right)        
+								  + \rho_o \sum\limits_{\substack{j=1 \\ j\neq l}}^{L} \beta_{ojl} 
+								  +\rho_b' \left(\beta_{oll}+ M' \sum\limits_{\substack{j=1 \\ j\neq l}}^{L}\beta_{ojl}\right)
 								  +1}\right) \right]	
 \end{eqnarray}
-To obtain a simple closed-form bound of the expectation in (\ref{eqn:rateotfull}), from \cite{bib:dtsysBook}, if $\Psi$ is an $M'$-vector with independent ${\mathbb C}{\mathbb N}(0,1)$ elements, then for any $\alpha>0$
+To obtain a simple closed-form bound of the expectation in (\ref{eqn:rateotfull}), from \cite{bib:dtsysBook}, if $\pmb{\Psi}$ is an $M'$-vector with independent ${\mathbb C}{\mathbb N}(0,1)$ elements, then for any $\alpha>0$
 \begin{eqnarray}\label{eqn:bound}
-	\mathbb{E}[log_2(1+\alpha||\Psi||^2)] &\geq& log_2\left(1+\frac{\alpha}{E[\frac{1}{||\Psi||^2}]}\right) \nonumber \\
+	\mathbb{E}[log_2(1+\alpha||\pmb{\Psi}||^2)] &\geq& log_2\left(1+\frac{\alpha}{E[\frac{1}{||\pmb{\Psi}||^2}]}\right) \nonumber \\
                                               &=&  log_2(1+(M'-1)\alpha)
 \end{eqnarray}
 Using the value of the variance of the estimate, bound for the rate can be formulated as
 \begin{eqnarray}
-	R_o &\geq& \left[log_2\left(1+\frac{\frac{\rho_o(M'-1)}{M'}\frac{\rho_o\tau_p^o\beta_{oll}}{\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}+M'}}
-								 {\frac{\rho_o}{M'}(\beta_{oll}-\frac{\rho_o\tau_p^o\beta^2_{oll}}{\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}+M'})        
-								  + \frac{\rho_o}{M'} \sum\limits_{\substack{j=1 \\ j\neq l}}^{L} \beta_{ojl} 
-								  +\rho_b'\sum\limits_{j=1}^{L}\beta_{ojl}
-								  +1}\right) \right]	
+	R_o &\geq& \left[log_2\left(1+\frac{\frac{\rho_o(M'-1)}{M'}\frac{\rho_o\tau_p^o\beta^2_{oll}}{\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}+M'}}
+								 {\rho_o\left(\beta_{oll}-\frac{\rho_o\tau_p^o\beta^2_{oll}}{\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}+M'}\right)        
+                                     + \rho_o \sum\limits_{\substack{j=1 \\ j\neq l}}^{L} \beta_{ojl} 
+                                     +\rho_b' \left(\beta_{oll}+ M' \sum\limits_{\substack{j=1 \\ j\neq l}}^{L}\beta_{ojl}\right)
+                                     +1}\right) \right]	
 \end{eqnarray}
 \bibliography{jbb}{}
 \bibliographystyle{plain}

@@ -55,7 +55,7 @@
     		      + \sqrt{\rho_o}\Pi^{\perp}_{{\pmb{\widehat{G}}_l}}\pmb{z}_l(t)
 \end{eqnarray}
 where $\pmb{v}_{lk'}\in\mathbb{C}^{M\times 1}$ and $s_{lk'}(t)$ are the beamforming vector and information symbol of the $k'$-th BT in the $l$-th cell, $\pmb{z}_l(t) \in \mathbb{C}^{M\times 1}$  is the SI vector intended for the OT. $\pmb{G}_l \in {\mathbb C}^{K \times M}$ denotes the downlink channel from M BS antennas to K BTs in the $l$-th cell. Further, $\pmb{\widehat{G}}_l$ denotes the corresponding estimate and $\Pi^{\perp}_{{\pmb{\widehat{G}}_l}} \triangleq \pmb{I}-\pmb{\widehat{G}}_l(\pmb{\widehat{G}}_l^H\pmb{\widehat{G}}_l)^{-1}\pmb{\widehat{G}}_l^H$, is the projection matrix for the space orthogonal to the column space of $\pmb{\widehat{G}}_l$. The symbols, $s_{lk'}(t)$ are assumed to have zero mean and unit variance, and the beamforming vector $\pmb{v}_{lk'}$ depends on the estimate of the channel gain from $k'$-th BT in the $l$-th cell to the BS of the same cell. 
-The power transmitted from the BS to the BTs is $\rho_b$ and therefore the beamforming vectors must satisfy
+The power transmitted from the BS to the BTs is $\rho_b$ and therefore the beamforming vector must satisfy
 \begin{eqnarray}\label{eqn:vkcondtion}
 	\mathbb{E}\left[\sum\limits_{k'=1}^{K}||\pmb{v}_{lk'}||^2\right]=1.
 \end{eqnarray}
@@ -207,7 +207,7 @@ Since $\pmb{g}_{lkj}$ and $\pmb{\widehat{G}}_j$ are independent
 \begin{eqnarray}\label{eqn:v6neql}
 V_{5j}^{BT} = \rho_o\sum\limits_{\substack{j=1 \\ j \neq l}}^{L}\beta_{lkj}
 \end{eqnarray}
-Similarly when $i=j=l$, conditioned on $\pmb{\widehat{G}}_l$, $\pmb{U}_l$ is fixed but
+Similarly when $i=j=l$, conditioned on $\pmb{\widehat{G}}_l$, $\pmb{U}_l$ is fixed and
 \begin{eqnarray}\label{eqn:conditionghat}
 E[\pmb{g}_{lkl}^*\pmb{g}_{lkl}^T|\pmb{\widehat{G}}_l] = \pmb{\hat g}_{lkl}^*\pmb{\hat g}_{lkl}^T + (\beta_{lkl}-\gamma_{lkl})\pmb{I}
 \end{eqnarray}
@@ -283,13 +283,14 @@ By max-min fairness policy $\pmb{SINR}_{lk} = \overline{\pmb{SINR}}_{l} \ \foral
     We consider a modified version of JBB, named as JBB', in which we assume there is no transmission to BT during the pilot phase of OT. 
     
     The signal received by OT in the $l$-th cell, in the pilot phase, is given by
-\begin{eqnarray}
+\begin{eqnarray}\label{eqn:rcvotpilot}
 	y_{ol}(t)=\sqrt{\rho_o} \sum_{j=1}^{L} \pmb{h}^T_{ejl} \ \pmb{q}^p(t) + w_{ol}(t) 
 \end{eqnarray}
 where
 \begin{eqnarray}
 	\pmb{h}_{ejl} &\triangleq& \pmb{U}_j^T\Pi^{\perp}_{{\widehat{\pmb{G}}^T_j}}\pmb{h}_{jl} = \pmb{U}_j^T\pmb{h}_{jl} \\
     \mathbb{E}[\pmb{h}_{ejl}\pmb{h}^H_{ejl}|\pmb{\widehat{G}}_j] &=& \beta_{ojl}\pmb{I} \nonumber \\
+                    &=& \mathbb{E}[\pmb{h}_{ejl}\pmb{h}^H_{ejl}] \nonumber \\
                                            &\triangleq& \pmb{C}_{\pmb{h}_{ejl}} \nonumber
 \end{eqnarray}
 and $\pmb{q}^p(t)$ are the known pilot signals sent at time $t$.
@@ -337,7 +338,7 @@ Thus the received signal is
  y_{ol}(t) = \sqrt{\rho_o} \sum_{j=1}^{L} \pmb{h}^T_{ejl} \pmb{q}_j(t)
             + \sqrt{\rho_b'} \sum_{j=1}^{L} \pmb{h}^T_{jl} \left(\sum_{k'=1}^{K} \pmb{v}_{jk'} s_{jk'}(t)\right) + w_{ol}(t)  
 \end{eqnarray} 
-Substituting $\pmb{h}_{ell} \triangleq \pmb{\hat h}_{ell}-\pmb{\widetilde{h}}_{ell}$, equation (\ref{eqn:otyt}) can be written as
+Substituting $\pmb{h}_{ell} \triangleq \pmb{\hat h}_{ell}-\pmb{\widetilde{h}}_{ell}$ in equation (\ref{eqn:otyt}) we obtain
 \begin{eqnarray}\label{eqn:otcomplete}
   y_{ol}(t)= \sqrt{\rho_o} \pmb{\hat h}^T_{ell} \ \pmb{q}_l(t) 
 	    - \sqrt{\rho_o}\pmb{\widetilde{h}}^T_{ell}\pmb{q}_l(t)
@@ -365,36 +366,39 @@ The noise variances for the other terms in (\ref{eqn:otcomplete}) are as follows
 \begin{eqnarray}\label{eqn:v3ot}
 	V_3^{OT} &\triangleq& \rho_b' \mathbb{E}\left[\left| \sum_{j=1}^{L}\sum_{k'=1}^{K} \pmb{h}^T_{jl} \pmb{v}_{jk'}s_{jk'}(t) \right|^2 | \pmb{\hat h}_{ell} \right] 
 \end{eqnarray}
-When $i=j=l$,
-\begin{eqnarray}
+When $i=j=l$, $\pmb{\hat h}_{ell}$ and $\pmb{h}_{ll}$ are dependent. Conditioned on $\pmb{\widehat{G}_l}$, $\pmb{U}_l$ is fixed, so from (\ref{eqn:rcvotpilot}
+) and (\ref{eqn:otchesti}), $\pmb{\hat h}_{ell}$ and $\pmb{h}_{ll}$ are jointly Gaussian with zero mean and cross-covariance
+\begin{eqnarray}\label{eqn:hehellvar}
+\mathbb{E}[\pmb{h}_{ll}^* \pmb{\hat h}_{ell}^T | \pmb{\widehat{G}}_{l}] = \frac{\beta_{oll}^{2}\rho_o\tau_p^o}{M'+\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}}\pmb{U}_l
+\end{eqnarray}
+For $i=j=l$, (\ref{eqn:v3ot}) can be written as
+\begin{eqnarray}\label{eqn:v3otl}
      V_{3l}^{OT} &\triangleq& \rho_b' \mathbb{E}\left[\sum_{k'=1}^{K} \pmb{v}_{lk'}^H \pmb{h}_{ll}^*  \pmb{h}_{ll}^T\pmb{v}_{lk'}| \pmb{\hat h}_{ell} \right] \nonumber \\
             &=& \rho_b' \mathbb{E}_{\pmb{\widehat{G}}_l}\left[\mathbb{E}\left[\sum_{k'=1}^{K} \pmb{v}^H_{lk'} \pmb{h}_{ll}^* \pmb{h}_{ll}^T \pmb{v}_{lk'}| \pmb{\hat h}_{ell},  \pmb{\widehat{G}}_{l} \right] | \pmb{\hat h}_{ell}\right] \nonumber \\
             &=& \rho_b' \mathbb{E}_{\pmb{\widehat{G}}_l}\left[\sum_{k'=1}^{K}\pmb{v}^H_{lk'} \mathbb{E}\left[ \pmb{h}_{ll}^*  \pmb{h}^T_{ll} | \pmb{\hat h}_{ell},  \pmb{\widehat{G}}_{l} \right] \pmb{v}_{lk'}| \pmb{\hat h}_{ell}\right]
 \end{eqnarray}
 The inner expectation can simplified using the equality from \cite{bib:rmtBook}.
-\begin{eqnarray}
+\begin{eqnarray}\label{eqn:hlhlgiveng}
 	\mathbb{E}[\pmb{h}_{ll}^*\pmb{h}^T_{ll}|\pmb{\hat h}_{ell}, \pmb{\widehat{G}}_{l}] = \pmb{C}_{\pmb{h}_{ll}}-\mathbb{E}[\pmb{h}_{ll}^* \pmb{\hat h}^T_{ell}| \pmb{\widehat{G}}_{l}] \ . \ \pmb{C}_{\pmb{\hat h}_{ell}}^{-1} .\ \mathbb{E}[\pmb{\hat h}_{ell}^* \pmb{h}_{ll}^T| \pmb{\widehat{G}}_{l}]
 \end{eqnarray}
-where
-\begin{eqnarray}
-	\mathbb{E}[\pmb{h}_{ll}^* \pmb{\hat h}_{ell}^T | \pmb{\widehat{G}}_{l}] = \frac{\beta_{oll}^{2}\rho_o\tau_p^o}{M'+\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}}\pmb{U}_l
-\end{eqnarray}
-Also note that $\pmb{U_l}^H\pmb{v}_{lk}=0$ for all $k$ since $\pmb{U}_l^H\pmb{\widehat{G}}_l=0$. Thus
+Thus substituting (\ref{eqn:hehellvar}) and (\ref{eqn:hlhlgiveng}) in (\ref{eqn:v3otl}) we get
 \begin{eqnarray}\label{eqn:otv3}
 	V_{3l}^{OT} &=& \rho_b'\left( \beta_{oll} \mathbb{E}\left[\sum_{k'=1}^{K}||\pmb{v}_{lk'}||^2\right]
-					- \frac{\beta_{oll}^{2}\rho_o\tau_p^o}{M'+\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}} \mathbb{E}\left[\sum_{k'=1}^{K} \pmb{v}_{lk'}^H \pmb{U}_l \pmb{U}_l^H \pmb{v}_{lk'}\right]\right) \nonumber \\
-%	    &=& \rho_b'\sum_{j=1}^{L}\beta_{oj}
-        &=& \rho_b'\beta_{oll}
+					- \frac{\beta_{oll}^{2}\rho_o\tau_p^o}{M'+\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}} \mathbb{E}\left[\sum_{k'=1}^{K} \pmb{v}_{lk'}^H \pmb{U}_l \pmb{U}_l^H \pmb{v}_{lk'}\right]\right)
 \end{eqnarray}
-When $i=j\neq l$
+Also $\pmb{U_l}^H\pmb{v}_{lk}=0$ for all $k$ since $\pmb{U}_l^H\pmb{\widehat{G}}_l=0$. Thus
+\begin{eqnarray}
+       	V_{3l}^{OT} &=& \rho_b'\beta_{oll}
+\end{eqnarray}
+When $i=j\neq l$, $\pmb{\hat h}_{ejl}$ and $\pmb{h}_{jl}$ are independent. Thus
 \begin{eqnarray}\label{eqn:v3jot}
 V_{3j}^{OT} &\triangleq& \rho_b' \sum_{\substack{j=1 \\ j\neq l}}^{L} \mathbb{E}\left[\sum_{k'=1}^{K} \pmb{v}_{jk'}^H \pmb{h}_{jl}^*  \pmb{h}_{jl}^T \pmb{v}_{jk'}| \pmb{\hat h}_{ell} \right] \nonumber \\
            &=&  \rho_b' \sum_{\substack{j=1 \\ j\neq l}}^{L}\left(\sum_{k'=1}^{K} \mathbb{E}\left[||\pmb{v}_{jk'}||^2\right]\right)\mathbb{E}\left[ \Bigm|\Bigm|\pmb{h}_{jl}\Bigm|\Bigm|^2\right] \nonumber \\
-           &=&\rho_b'M' \sum_{\substack{j=1 \\ j\neq l}}^{L}\beta_{ojl}
+           &=&\rho_b'M \sum_{\substack{j=1 \\ j\neq l}}^{L}\beta_{ojl}
 \end{eqnarray}
 When $i\neq j\neq l$ the value is zero. Thus
 \begin{eqnarray}
-V_3^{OT} &=&\rho_b' \left(\beta_{oll}+ M' \sum_{\substack{j=1 \\ j\neq l}}^{L}\beta_{ojl}\right)
+V_3^{OT} &=&\rho_b' \left(\beta_{oll}+ M \sum_{\substack{j=1 \\ j\neq l}}^{L}\beta_{ojl}\right)
 \end{eqnarray}
 
 For the AWGN term, the noise variance is, $V_4^{OT} = 1$
@@ -405,7 +409,7 @@ The rate for the OT is
             &=&  \mathbb{E}_{\pmb{\hat h}_{ell}}\left[log_2\left(1+\frac{\frac{\rho_o||\pmb{\hat h}_{ell}||^2}{M'}}
 								 {\rho_o\left(\beta_{oll}-\frac{\rho_o\tau_p^o\beta^2_{oll}}{\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}+M'}\right)        
 								  + \rho_o \sum\limits_{\substack{j=1 \\ j\neq l}}^{L} \beta_{ojl} 
-								  +\rho_b' \left(\beta_{oll}+ M' \sum\limits_{\substack{j=1 \\ j\neq l}}^{L}\beta_{ojl}\right)
+								  +\rho_b' \left(\beta_{oll}+ M \sum\limits_{\substack{j=1 \\ j\neq l}}^{L}\beta_{ojl}\right)
 								  +1}\right) \right]	
 \end{eqnarray}
 To obtain a simple closed-form bound of the expectation in (\ref{eqn:rateotfull}), from \cite{bib:dtsysBook}, if $\pmb{\Psi}$ is an $M'$-vector with independent ${\mathbb C}{\mathbb N}(0,1)$ elements, then for any $\alpha>0$
@@ -418,7 +422,7 @@ Using the value of the variance of the estimate, bound for the rate can be formu
 	R_o &\geq& \left[log_2\left(1+\frac{\frac{\rho_o(M'-1)}{M'}\frac{\rho_o\tau_p^o\beta^2_{oll}}{\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}+M'}}
 								 {\rho_o\left(\beta_{oll}-\frac{\rho_o\tau_p^o\beta^2_{oll}}{\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}+M'}\right)        
                                      + \rho_o \sum\limits_{\substack{j=1 \\ j\neq l}}^{L} \beta_{ojl} 
-                                     +\rho_b' \left(\beta_{oll}+ M' \sum\limits_{\substack{j=1 \\ j\neq l}}^{L}\beta_{ojl}\right)
+                                     +\rho_b' \left(\beta_{oll}+ M \sum\limits_{\substack{j=1 \\ j\neq l}}^{L}\beta_{ojl}\right)
                                      +1}\right) \right]	
 \end{eqnarray}
 \bibliography{jbb}{}

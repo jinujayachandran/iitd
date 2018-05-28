@@ -54,7 +54,7 @@
 	\pmb{x}_l(t) = \sqrt{\rho_b}\sum\limits_{k'=1}^{K}\pmb{v}_{lk'}s_{lk'}(t)
     		      + \sqrt{\rho_o}\Pi^{\perp}_{{\pmb{\widehat{G}}_l}}\pmb{z}_l(t)
 \end{eqnarray}
-where $\pmb{v}_{lk'}\in\mathbb{C}^{M\times 1}$ and $s_{lk'}(t)$ are the beamforming vector and information symbol of the $k'$-th BT in the $l$-th cell, $\pmb{z}_l(t) \in \mathbb{C}^{M\times 1}$  is the SI vector intended for the OT. $\pmb{G}_l \in {\mathbb C}^{K \times M}$ denotes the downlink channel from M BS antennas to K BTs in the $l$-th cell. Further, $\pmb{\widehat{G}}_l$ denotes the corresponding estimate and $\Pi^{\perp}_{{\pmb{\widehat{G}}_l}} \triangleq \pmb{I}-\pmb{\widehat{G}}_l(\pmb{\widehat{G}}_l^H\pmb{\widehat{G}}_l)^{-1}\pmb{\widehat{G}}_l^H$, is the projection matrix for the space orthogonal to the column space of $\pmb{\widehat{G}}_l$. The symbols, $s_{lk'}(t)$ are assumed to have zero mean and unit variance, and the beamforming vector $\pmb{v}_{lk'}$ depends on the estimate of the channel gain from $k'$-th BT in the $l$-th cell to the BS of the same cell. 
+where $\pmb{v}_{lk'}\in\mathbb{C}^{M\times 1}$ and $s_{lk'}(t)$ are the beamforming vector and information symbol of the $k'$-th BT in the $l$-th cell, $\pmb{z}_l(t) \in \mathbb{C}^{M\times 1}$  is the SI vector intended for the OT. $\pmb{G}_l \in {\mathbb C}^{K \times M}$ denotes the downlink channel from M BS antennas to K BTs in the $l$-th cell. Further, $\pmb{\widehat{G}}_l$ denotes the corresponding estimate and $\Pi^{\perp}_{{\pmb{\widehat{G}}_l}} \triangleq \pmb{I}-\pmb{\widehat{G}}^*_l(\pmb{\widehat{G}}_l^T\pmb{\widehat{G}}^*_l)^{-1}\pmb{\widehat{G}}_l^T$, is the projection matrix for the space orthogonal to the column space of $\pmb{\widehat{G}}^*_l$ i.e, $\pmb{\widehat{G}}_l^T\Pi^{\perp}_{{\pmb{\widehat{G}}_l}}=0 $. The symbols, $s_{lk'}(t)$ are assumed to have zero mean and unit variance, and the beamforming vector $\pmb{v}_{lk'}$ depends on the estimate of the channel gain from $k'$-th BT in the $l$-th cell to the BS of the same cell. 
 The power transmitted from the BS to the BTs is $\rho_b$ and therefore the beamforming vector must satisfy
 \begin{eqnarray}\label{eqn:vkcondtion}
 	\mathbb{E}\left[\sum\limits_{k'=1}^{K}||\pmb{v}_{lk'}||^2\right]=1.
@@ -195,7 +195,7 @@ The variance of the term transmitted for OT in (\ref{eqn:completeot}) is given b
 \end{eqnarray}
 Since $\pmb{q}_j=\pmb{q}_i$, $\mathbb{E}[\pmb{q}_j^H\pmb{q}_i]=\frac{1}{M'}$. Thus
 \begin{eqnarray}\label{eqn:noiseF4_1}	    
-           V_5^{BT} &=&       \frac{\rho_o}{M'}\sum_{j=1}^{L}\sum_{i=1}^{L} \Tr\left(\mathbb{E}\left[\pmb{U}_i^H \Pi^{\perp}_{\pmb{\widehat{G}}_i} \pmb{g}_{lki}^* \pmb{g}_{lkj}^{T}\Pi^{\perp}_{\pmb{\widehat{G}}_j} \pmb{U}_j\right]\right)
+           V_5^{BT} &=&       \frac{\rho_o}{M'}\sum_{j=1}^{L}\sum_{i=1}^{L} \Tr\left(\mathbb{E}\left[\pmb{U}_j^H \Pi^{\perp}_{\pmb{\widehat{G}}_j} \pmb{g}_{lkj}^* \pmb{g}_{lki}^{T}\Pi^{\perp}_{\pmb{\widehat{G}}_i} \pmb{U}_i\right]\right)
 \end{eqnarray}
 When $i=j\neq l$, conditioned on $\pmb{\widehat{G}}_j$, $\pmb{U}_j$ is fixed so that
 (\ref{eqn:noiseF4_1}) can be written as 
@@ -233,18 +233,14 @@ R_{lk}^{MR} &=& log_2\left[1+\dfrac{M\rho_b\eta_{lk}\gamma_{lkl}}{ \rho_b\sum\li
 %\end{eqnarray}
 
 
-\section{Power Allocation Stratergy for BT}
+\section{Power Allocation Strategy for BT}
 The max-min fairness power allocation is adopted as described in Chapter 5 and 6.2.5 in \cite{bib:MassiveMimoBook}. As per this policy the value of $\eta_{lk}$ shall be chosen so that the rates of all the BTs in a cell are equal. A heuristic algorithm, that corrects the power control coefficients to the first order of approximation for the effects of coherent interference is used.
 
 From (\ref{eqn:rateot}), the value of $\pmb{SINR}_{lk}$ is
 \begin{eqnarray}\label{eqn:sinrlkbt}
 \pmb{SINR}_{lk} &=& \dfrac{M\rho_b\eta_{lk}\gamma_{lkl}}{ \rho_b\sum\limits_{j=1}^{L}\beta_{lkj}+M\rho_b\sum\limits_{\substack{j=1 \\ j \neq l}}^{L}\beta_{lkj}\eta_{jk} +\rho_o\left(\sum\limits_{j=1}^{L}\beta_{lkj} -\gamma_{lkl}\right)+1}
 \end{eqnarray}
- The initial power control coefficients, $\hat \eta_{lk}$, is obtained under the assumption that the coherent interference term is negligible in each cell. From (\ref{eqn:sinrlkbt}) we obtain
- \begin{eqnarray}\label{eqn:etasinr}
- \hat \eta_{lk} &=& \frac{\pmb{SINR}_{lk}\left(\rho_b\sum\limits_{j=1}^{L}\beta_{lkj}+\rho_o\left(\sum\limits_{j=1}^{L}\beta_{lkj} -\gamma_{lkl}\right)+1\right)}{M\rho_b\gamma_{lkl}}
- \end{eqnarray}
- Using constraint (\ref{eqn:etaconstraint}) and substituting (\ref{eqn:sinrlkbt}) in (\ref{eqn:etasinr}), the value of  $\hat \eta_{lk}$ is given by
+ The initial power control coefficients, $\hat \eta_{lk}$, is obtained under the assumption that the coherent interference term is negligible in each cell. Using constraint (\ref{eqn:etaconstraint}), the value of  $\hat \eta_{lk}$ is given by
 \begin{eqnarray}\label{eqn:etahatbt}
     \hat \eta_{lk} = \dfrac{\rho_b\sum\limits_{j=1}^{L}\beta_{lkj}+\rho_o\left(\sum\limits_{j=1}^{L}\beta_{lkj} -\gamma_{lkl}\right)+1}
     {\gamma_{lkl}\mathlarger{\mathlarger{\sum}}\limits_{k'=1}^{K}\cfrac{\rho_b\sum\limits_{j=1}^{L}\beta_{lk'j}+\rho_o\left(\sum\limits_{j=1}^{L}\beta_{lk'j} -\gamma_{lk'l}\right)+1}{\gamma_{lk'l}}}
@@ -288,7 +284,7 @@ By max-min fairness policy $\pmb{SINR}_{lk} = \overline{\pmb{SINR}}_{l} \ \foral
 \end{eqnarray}
 where
 \begin{eqnarray}
-	\pmb{h}_{ejl} &\triangleq& \pmb{U}_j^T\Pi^{\perp}_{{\widehat{\pmb{G}}^T_j}}\pmb{h}_{jl} = \pmb{U}_j^T\pmb{h}_{jl} \\
+%	\pmb{h}_{ejl} &\triangleq& \pmb{U}_j^T\Pi^{\perp}_{{\widehat{\pmb{G}}^T_j}}\pmb{h}_{jl} = \pmb{U}_j^T\pmb{h}_{jl} \\
     \mathbb{E}[\pmb{h}_{ejl}\pmb{h}^H_{ejl}|\pmb{\widehat{G}}_j] &=& \beta_{ojl}\pmb{I} \nonumber \\
                     &=& \mathbb{E}[\pmb{h}_{ejl}\pmb{h}^H_{ejl}] \nonumber \\
                                            &\triangleq& \pmb{C}_{\pmb{h}_{ejl}} \nonumber
@@ -298,18 +294,21 @@ The OT correlates $y_{ol}(t)$ with the pilot sequence to obtain
 \begin{eqnarray}
 	\pmb{y}_{ol}^{p} &\triangleq& \sum_{t=1}^{\tau_p^o} \Big(\pmb{q}^{p}(t)\Big)^* y^T_{ol}(t)\nonumber
 \end{eqnarray}
-where $\tau_p^o$ is the total number of symbols send in the pilot phase.
+where $\tau_p^o \geq M'$ is the total number of symbols send in the pilot phase.
 
-The total power transmitted for the broadcast of SI is the same during pilot and payload phase. Therefore
+The pilot signal satisfies
 \begin{eqnarray}
-    \sum\limits_{t=1}^{\tau_p^o}\Big(\pmb{q}^p_{l}(t)\Big)^*\Big(\pmb{q}^p_{l}(t)\Big)^T&=&\frac{\tau_p^o}{M'}\pmb{I} \\
-\implies \pmb{y}_{ol} &=& \sqrt{\rho_o}\frac{\tau_p^o}{M'}\sum_{j=1}^{L}\pmb{h}_{ejl}+\pmb{n}^p_{ol}
+    \sum\limits_{t=1}^{\tau_p^o}\Big(\pmb{q}^p(t)\Big)^*\Big(\pmb{q}^p(t)\Big)^T&=&\frac{\tau_p^o}{M'}\pmb{I}
 \end{eqnarray}
-The variance of AWGN, $\pmb{n}_{ol}^p$, is given by
+Therefore
+\begin{eqnarray}
+ \pmb{y}_{ol}^p &=& \sqrt{\rho_o}\frac{\tau_p^o}{M'}\sum_{j=1}^{L}\pmb{h}_{ejl}+\pmb{n}^p_{ol}
+\end{eqnarray}
+where $\pmb{n}_{ol}^p \triangleq \sum\limits_{t=1}^{\tau_p^o}\Big(\pmb{q}^{p}(t)\Big)^*w_{ol}(t) $ is the AWGN and its variance is given by
 \begin{eqnarray}
 	\mathbb{E}[\pmb{n}^p_{ol}(\pmb{n}^p_{ol})^H] &=& \frac{\tau_p^o}{M'}I \nonumber
 \end{eqnarray}
-Following the same procedure as in section (\ref{sec:btchesti}), the channel estimate from the $l$-th cell BS to the OT can be derived as 
+Following the same procedure as in section (\ref{sec:btchesti}), the channel estimate from the $l$-th cell BS to the OT in the $l$-th cell can be derived as 
 \begin{eqnarray}\label{eqn:otchesti}
 	\pmb{\hat h}_{ell} &=& \frac{M'\sqrt{\rho_o}\beta_{oll}}{M'+\rho_o\tau_p^o\sum\limits_{j=1}^{L}\beta_{ojl}}\pmb{y}^p_{ol}
 \end{eqnarray}
@@ -328,7 +327,7 @@ The received signal at OT in the $l$-th cell is given by
 y_{ol}(t) = \sqrt{\rho_o} \sum_{j=1}^{L} \pmb{h}^T_{ejl} \pmb{q}_j(t)
 + \sqrt{\rho_b} \sum_{j=1}^{L} \pmb{h}^T_{jl} \left(\sum_{k'=1}^{K} \pmb{v}_{jk'} s_{jk'}(t)\right) + w_{ol}(t)  
 \end{eqnarray} 
-Since there is no transmission to BTs during the pilot phase of OT, in order to spend the same amount of energy per coherence interval, $\rho_b$ in $(\ref{eqn:otytorg})$ must be replaced with
+where $\pmb{q}_j(t)$ are the SI with $\mathbb{E}[\pmb{q}_j\pmb{q}_j^H]=\frac{1}{M'}\pmb{I}$. Since there is no transmission to BTs during the pilot phase of OT, if the average downlink power transmitted to the BTs is $\rho_b$ then in (\ref{eqn:otytorg}) we must replace $\rho_b$ with $\rho_b'$ where
 \begin{eqnarray}
 \rho_b' \triangleq \frac{\tau_d^d}{\tau_d^d-\tau_p^o}\rho_b
 \end{eqnarray}
@@ -346,7 +345,7 @@ Substituting $\pmb{h}_{ell} \triangleq \pmb{\hat h}_{ell}-\pmb{\widetilde{h}}_{e
             + \sqrt{\rho_b'} \sum_{j=1}^{L} \pmb{h}^T_{jl} \left(\sum_{k'=1}^{K} \pmb{v}_{jk'} s_{jk'}(t) \right)             
 	    + w_{ol}(t)  
 \end{eqnarray}
-The first term in (\ref{eqn:otcomplete}) is the required signal and other terms constitute to interference and noise. The signal, intereference and the noise terms are mutually uncorrelated. 
+The first term in (\ref{eqn:otcomplete}) is the required signal and other terms constitute to interference and noise. The signal, interference and the noise terms are mutually uncorrelated. 
 
 The signal power is given by
 \begin{eqnarray}
